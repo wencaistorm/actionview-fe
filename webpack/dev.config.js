@@ -7,8 +7,9 @@ import startExpress from './utils/start-express';
 import { baseConfig } from './base.config';
 
 const PORT = parseInt(process.env.PORT, 10) + 1 || 3001;
-const LOCAL_IP = require('dev-ip')();
-const HOST = isArray(LOCAL_IP) && LOCAL_IP[0] || LOCAL_IP || 'localhost';
+//const LOCAL_IP = require('dev-ip')();
+//const HOST = isArray(LOCAL_IP) && LOCAL_IP[0] || LOCAL_IP || 'localhost';
+const HOST = 'localhost';
 const PUBLIC_PATH = `http://${HOST}:${PORT}/assets/`;
 
 export default {
@@ -55,7 +56,7 @@ export default {
         {
           test: /\.css$/,
           loader: 'style!css!postcss',
-          exclude: /node_modules\/(?!font-awesome|react-select|bootstrap|react-bootstrap-table|react-datetime|rc-tabs|mermaid|react-dropzone-component|dropzone)/
+          exclude: /node_modules\/(?!font-awesome|cropper|react-select|bootstrap|react-bootstrap-table|react-datetime|rc-tabs|mermaid|react-dropzone-component|dropzone)/
         }
       ]
     },

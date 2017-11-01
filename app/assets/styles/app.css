@@ -292,10 +292,10 @@
   overflow-y: auto;
   width: 600px;
   position: fixed;
-  top: 0px;
+  top: 50px;
   right: 0;
   bottom: 0;
-  z-index: 300;
+  z-index: 10;
 }
 
 .animate-dialog .panel {
@@ -303,6 +303,7 @@
 }
 
 .animate-dialog .close {
+  margin:1px;
   font-size: 16px;
   width: 25px;
   height: 42px;
@@ -311,6 +312,7 @@
 }
 
 .animate-dialog .angle {
+  margin:1px;
   padding: 0px;
   border: 0px;
   font-size: 16px;
@@ -350,11 +352,11 @@
   position: absolute;
   display: none;
   z-index: 999;
+  text-align: center;
 }
 
 .detail-loading {
   margin-top: 48%;
-  margin-left: 48%;
 }
 
 #content {
@@ -489,7 +491,7 @@ table tr:hover .remove-icon{
 }
 
 .login-panel {
-  width: 400px;
+  width: 365px;
   margin: 100px auto;
   border: none;
 }
@@ -533,8 +535,8 @@ table tr:hover .remove-icon{
 }
 
 .no-avatar {
-  width: 25px;
-  height: 25px;
+  width: 28px;
+  height: 28px;
   text-decoration: 'blink';
   border-radius: 50%;
 }
@@ -588,4 +590,65 @@ table tr:hover .remove-icon{
 .attachment-title {
   overflow: hidden;
   text-overflow: ellipsis;
+}
+
+.user-item {
+  border: 1px dashed gray;
+  padding: 0.5rem 1rem;
+  margin-bottom: 0.5rem;
+  background-color: white;
+  opacity: 1;
+}
+
+.user-item:hover {
+  background-color: #eee;
+}
+
+.avatar-edit-container {
+  width: 100%; 
+  border: 1px dashed rgb(102, 102, 102);
+}
+
+.preview-img {
+  overflow: hidden;
+  height: 120px;
+  display: inline-block;
+  vertical-align: middle;
+  border: 1px solid #ccc; 
+}
+
+.upload-img {
+  display: inline-block;
+  padding: 6px 12px;
+  margin-bottom: 0;
+  font-size: 14px;
+  font-weight: normal;
+  line-height: 1.42857143;
+  text-align: center;
+  white-space: nowrap;
+  vertical-align: middle;
+  user-select: none;
+  background-image: none;
+  border: 1px solid transparent;
+  border-radius: 4px;
+  cursor: pointer;
+  touch-action: manipulation;
+  color: #fff;
+  background-color: #5cb85c;
+  border-color: #4cae4c;
+}
+
+.upload-img:hover {
+  color: #fff;
+  background-color: #449d44;
+  border-color: #398439;
+  text-decoration: none;
+}
+
+.upload-img input {
+  position: absolute;
+  font-size: 100px;
+  right: 0;
+  top: 0;
+  opacity: 0;
 }

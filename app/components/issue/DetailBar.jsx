@@ -72,6 +72,7 @@ export default class DetailBar extends Component {
     visitedCollection: PropTypes.array.isRequired,
     issueCollection: PropTypes.array.isRequired,
     show: PropTypes.func.isRequired,
+    detailFloatStyle: PropTypes.object,
     wfCollection: PropTypes.array.isRequired,
     wfLoading: PropTypes.bool.isRequired,
     viewWorkflow: PropTypes.func.isRequired,
@@ -354,10 +355,7 @@ export default class DetailBar extends Component {
     const { data, doAction } = this.props;
     const action = _.find(data.wfactions || {}, { id: eventKey });
     if (action && action.schema) {
-      if (action.screen == 'comments') {
-      } else {
-        this.setState({ workflowScreenShow: true, action_id: eventKey });
-      }
+      this.setState({ workflowScreenShow: true, action_id: eventKey });
     } else {
       const ecode = await doAction(data.id, data.entry_id, eventKey);
       if (ecode === 0) {
@@ -372,6 +370,7 @@ export default class DetailBar extends Component {
     const { 
       i18n,
       close, 
+      detailFloatStyle={},
       data={}, 
       record, 
       visitedIndex, 
@@ -416,9 +415,22 @@ export default class DetailBar extends Component {
       linkLoading, 
       doAction,
       user } = this.props;
-    const { previewShow, photoIndex, newAssignee, settingAssignee, editAssignee, delFileShow, selectedFile, action_id } = this.state;
 
-    const assigneeOptions = _.map(options.assignees || [], (val) => { return { label: val.name + '(' + val.email + ')', value: val.id } });
+    const { 
+      previewShow, 
+      photoIndex, 
+      newAssignee, 
+      settingAssignee, 
+      editAssignee, 
+      delFileShow, 
+      selectedFile, 
+      action_id } = this.state;
+
+    const panelStyle = { marginBottom: '0px', borderTop: '0px' };
+
+    const assigneeOptions = _.map(options.assignees || [], (val) => { 
+      return { label: val.name + '(' + val.email + ')', value: val.id } 
+    });
 
     const subtaskTypeOptions = [];
     _.map(options.types, (val) => {
@@ -451,7 +463,7 @@ export default class DetailBar extends Component {
     }
 
     return (
-      <div className='animate-dialog'>
+      <div className='animate-dialog' style={ { ...detailFloatStyle } }>
         <Button className='close' onClick={ close } title='关闭'>
           <i className='fa fa-close'></i>
         </Button>
@@ -472,7 +484,7 @@ export default class DetailBar extends Component {
             <i className='fa fa-eye'></i>
           </Button>
         </OverlayTrigger>
-        <div className='panel panel-default' style={ { marginBottom: '0px' } }>
+        <div className='panel panel-default' style={ panelStyle }>
           <Tabs activeKey={ this.state.tabKey } onSelect={ this.handleTabSelect.bind(this) } id='uncontrolled-tab-example'>
             <Tab eventKey={ 1 } title='基本'>
               <div className='detail-view-blanket' style={ { display: itemLoading ? 'block' : 'none' } }><img src={ img } className='loading detail-loading'/></div>
@@ -581,7 +593,14 @@ export default class DetailBar extends Component {
                     </div>
                     :
                     <div style={ { marginTop: '7px' } }>
-                      <Select simpleValue clearable={ false } disabled={ settingAssignee } options={ assigneeOptions } value={ newAssignee || data['assignee'].id } onChange={ this.handleAssigneeSelectChange.bind(this) } placeholder='选择经办人'/>
+                      <Select 
+                        simpleValue 
+                        clearable={ false } 
+                        disabled={ settingAssignee } 
+                        options={ assigneeOptions } 
+                        value={ newAssignee || data['assignee'].id } 
+                        onChange={ this.handleAssigneeSelectChange.bind(this) } 
+                        placeholder='选择经办人'/>
                       <div style={ { float: 'right' } }>
                         <Button className='edit-ok-button' onClick={ this.setAssignee.bind(this) }><i className='fa fa-check'></i></Button>
                         <Button className='edit-ok-button' onClick={ this.cancelSetAssignee.bind(this) }><i className='fa fa-close'></i></Button>
@@ -596,7 +615,15 @@ export default class DetailBar extends Component {
                   </Col>
                   <Col sm={ 9 }>
                     { data.subtasks.length > 2 &&
-                    <div style={ { marginTop: '7px' } }>共{ data.subtasks.length }个子任务<span style={ { marginLeft: '5px' } }> <a href='#' onClick={ (e) => { e.preventDefault(); this.setState({ subtaskShow: !this.state.subtaskShow }) } }>{ this.state.subtaskShow ? '收起' : '展开' } <i className={ this.state.subtaskShow ?  'fa fa-angle-double-up' : 'fa fa-angle-double-down' }></i></a></span></div> }
+                    <div style={ { marginTop: '7px' } }>
+                      共{ data.subtasks.length }个子任务
+                      <span style={ { marginLeft: '5px' } }> 
+                        <a href='#' onClick={ (e) => { e.preventDefault(); this.setState({ subtaskShow: !this.state.subtaskShow }) } }>
+                          { this.state.subtaskShow ? '收起' : '展开' } 
+                          <i className={ this.state.subtaskShow ?  'fa fa-angle-double-up' : 'fa fa-angle-double-down' }></i>
+                        </a>
+                      </span>
+                    </div> }
                     <Table condensed hover responsive className={ (!this.state.subtaskShow && data.subtasks.length > 2) ? 'hide' : '' } style={ { marginTop: '10px', marginBottom: '0px' } }>
                       <tbody>
                       { _.map(data.subtasks, (val, key) => {
@@ -616,7 +643,15 @@ export default class DetailBar extends Component {
                   </Col>
                   <Col sm={ 9 }>
                     { data.links.length > 2 &&
-                    <div style={ { marginTop: '7px' } }>共{ data.links.length }个问题<span style={ { marginLeft: '5px' } }> <a href='#' onClick={ (e) => { e.preventDefault(); this.setState({ linkShow: !this.state.linkShow }) } }>{ this.state.linkShow ? '收起' : '展开' } <i className={ this.state.linkShow ?  'fa fa-angle-double-up' : 'fa fa-angle-double-down' }></i></a></span></div> }
+                    <div style={ { marginTop: '7px' } }>
+                      共{ data.links.length }个问题
+                      <span style={ { marginLeft: '5px' } }> 
+                        <a href='#' onClick={ (e) => { e.preventDefault(); this.setState({ linkShow: !this.state.linkShow }) } }>
+                          { this.state.linkShow ? '收起' : '展开' } 
+                          <i className={ this.state.linkShow ?  'fa fa-angle-double-up' : 'fa fa-angle-double-down' }></i>
+                        </a>
+                      </span>
+                    </div> }
                     <Table condensed hover responsive className={ (!this.state.linkShow && data.links.length > 2) ? 'hide' : '' } style={ { marginTop: '10px', marginBottom: '0px' } }>
                       <tbody>
                       { _.map(data.links, (val, key) => {
@@ -711,7 +746,7 @@ export default class DetailBar extends Component {
                             { _.map(noImgFiles, (f, i) => 
                               <tr key={ i }>
                                 <td><i className={ this.getFileIconCss(f.name) }></i> <a href={ '/api/project/' + project.key + '/file/' + f.id } download={ f.name }>{ f.name }</a></td>
-                                { options.permissions && options.permissions.indexOf('edit_issue') !== -1 && <td width='2%'><span className='remove-icon' onClick={ this.delFileNotify.bind(this, field.key, f.id, f.name) }><i className='fa fa-trash'></i></span></td> }
+                                { options.permissions && options.permissions.indexOf('remove_file') !== -1 && <td width='2%'><span className='remove-icon' onClick={ this.delFileNotify.bind(this, field.key, f.id, f.name) }><i className='fa fa-trash'></i></span></td> }
                               </tr> ) }
                           </tbody>
                         </Table> }
@@ -727,13 +762,13 @@ export default class DetailBar extends Component {
                                  </div>
                                  <div className='attachment-title-container'>
                                     <div className='attachment-title'>{ f.name }</div>
-                                    { options.permissions && options.permissions.indexOf('edit_issue') !== -1 && <div className='remove-icon' onClick={ this.delFileNotify.bind(this, field.key, f.id, f.name) }><i className='fa fa-trash'></i></div> }
+                                    { options.permissions && options.permissions.indexOf('remove_file') !== -1 && <div className='remove-icon' onClick={ this.delFileNotify.bind(this, field.key, f.id, f.name) }><i className='fa fa-trash'></i></div> }
                                  </div>
                                </div>
                              </Col> ) }
                            </Row>
                          </Grid> }
-                      { options.permissions && options.permissions.indexOf('edit_issue') !== -1 &&
+                      { options.permissions && options.permissions.indexOf('upload_file') !== -1 &&
                       <div style={ { marginTop: '8px' } }>
                         <DropzoneComponent 
                           config={ componentConfig } 

@@ -70,7 +70,7 @@ export default function(router) {
   router.get('/user', function(req, res) {
     const startTime = new Date().getTime(); 
     while (new Date().getTime() < startTime + 2000);
-    const results = { ecode: 0, data: [{ id: '1111', name: '刘旭111', email: 'liuxu@chinamobile.com', phone: 13811450899, status: 'active'}, {id: '111122', name: '刘旭111',email: 'liuxu@chinamobile.com', phone: 13811450899, status: 'active'},  { id: '111111', name: '刘旭11331',email: 'liuxu@chinamobile.com', phone: 13811450899, status: 'active'}, { id: '11133111', name: '刘旭111333', email: 'liuxu@chinamobile.com', phone: 13811450899, status: 'closed'} ] };
+    const results = { ecode: 0, data: [{ id: '1111', name: '刘旭111', email: 'liuxu@chinamobile.com', phone: 13811450899, groups:['aa', 'bb'], status: 'active'}, {id: '111122', name: '刘旭111',email: 'liuxu@chinamobile.com', phone: 13811450899, status: 'active'},  { id: '111111', name: '刘旭11331',email: 'liuxu@chinamobile.com', phone: 13811450899, status: 'active'}, { id: '11133111', name: '刘旭111333', email: 'liuxu@chinamobile.com', phone: 13811450899, status: 'closed'} ], options: { groups: [{id:'111', name:'111'}, {id:'222', name:'222'}] } };
     return res.status(200).send(results);
   });
 
@@ -81,10 +81,38 @@ export default function(router) {
     return res.status(200).send(results);
   });
 
+  router.get('/group/search', function(req, res) {
+    const startTime = new Date().getTime();
+    while (new Date().getTime() < startTime + 2000);
+    const results = { ecode: 0, data: [{ id: '1111', name: '111' }, {id: '111122', name: '刘旭111'},  { id: '111111', name: '刘旭11331'}, { id: '11133111', name: '刘旭111333'} ] };
+    return res.status(200).send(results);
+  });
+
+  router.get('/group', function(req, res) {
+    const startTime = new Date().getTime();
+    while (new Date().getTime() < startTime + 2000);
+    const results = { ecode: 0, data: [{ id: '1111', name: '刘旭111', users:['aa', 'bb']}, {id: '111122', name: '刘旭111',  users:[ { id: 'aa', name : 'aa' } , { id: 'bb', name: 'bb'}, { id: 'cc', name: 'cc' } ]},  { id: '111111', name: '刘旭11331', description: '111111111111111111', users:['aa', 'bb', 'cc', 'dd']}, { id: '11133111', name: '刘旭111333' }], options: { total: 4 }};
+    return res.status(200).send(results);
+  });
+
+  router.delete('/group/:id', function(req, res) {
+    const startTime = new Date().getTime();
+    while (new Date().getTime() < startTime + 2000);
+    const results = { ecode: 0, data: { id: req.params.id }};
+    return res.status(200).send(results);
+  });
+
   router.get('/myproject', function(req, res) {
     const startTime = new Date().getTime(); 
     while (new Date().getTime() < startTime + 2000);
     const results = { ecode: 0, data: [{ id: '1111', name: '社交化项目管理系统', description: 'aaaabbbbccc测试测试测试测试测试测试测测试时测试测试测试测试测试测试', key: 'SPMS', creator: '卢红兵', create_time: 144444, principal: { id: 'zzz', nameAndEmail:'liuxu@aa.com', name: '刘旭' } },{ id: '2222', name: '企业安全网盘', key: 'WEBDISK', creator: '王仕喜', create_time: 144444, principal: { id: 'zzz', name: '刘旭' } },{ id: '3333', name: '社交化项目管理系统', key: 'SPMS', creator: '卢红兵', create_time: 144444, principal: { id: 'zzz', name: '刘旭' } },{ id: '4444', name: '企业安全网盘', key: 'WEBDISK', creator: '王仕喜', create_time: 144444, principal: { id: 'zzz', name: '王世喜' }}] };
+    return res.status(200).send(results);
+  });
+
+  router.get('/project/recent', function(req, res) {
+    const startTime = new Date().getTime();
+    while (new Date().getTime() < startTime + 2000);
+    const results = { ecode: 0, data: [{ id: '546761', name: '社交化项目管理系统', key: 'SPMS', creator: '卢红兵', create_time: 144444 },{ id: '54676i2', name: '企业安全网盘', key: 'WEBDISK', creator: '王仕喜', create_time: 144444 },{ id: '5s46761', name: '社交化项目管理系统', key: 'SPMS', creator: '卢红兵', create_time: 144444 },{ id: '54r676i2', name: '企业安全网盘', key: 'WEBDISK', creator: '王仕喜', create_time: 144444 },{ id: '5i46761', name: '社交化项目管理系统', key: 'SPMS', creator: '卢红兵', create_time: 144444 },{ id: '54aa676i2', name: '企业安全网盘', key: 'WEBDISK', creator: '王仕喜', create_time: 144444 },{ id: '54bgg6761', name: '社交化项目管理系统', key: 'SPMS', creator: '卢红兵', create_time: 144444 }], options: { 'total': 8 } };
     return res.status(200).send(results);
   });
 
@@ -111,7 +139,7 @@ export default function(router) {
   });
 
   router.get('/project/:key', function(req, res) {
-    const results = { ecode: 0, data: { id: '546761', name: '播吧', key: 'BOBA', principal: { id:'xxx', name: '刘旭' }, creator: '刘旭', create_time: 144444 }, options: { permissions: [ 'manage_project' ] }};
+    const results = { ecode: 0, data: { id: '546761', name: '播吧', key: 'BOBA', principal: { id:'xxx', name: '刘旭' }, creator: '刘旭', create_time: 144444 }, options: { permissions: [ 'manage_project', 'view_project' ] }};
     return res.status(200).send(results);
   });
 
@@ -164,10 +192,50 @@ export default function(router) {
     return res.status(200).send(results);
   });
 
+  /* board start */
+  router.get('/project/:key/board', function(req, res) {
+    console.log('routes.js')
+    const results = { ecode: 0, data: [
+      { id: '546761', name: 'AAAA', description:'bbbbb', type: 'kanban'},
+      { id: '546763', name: 'BBBB', type: 'kanban'},
+      { id: '546762', name: 'CCCC', type: 'scrum'},
+      { id: '232323', name: 'DDDD', type: 'scrum'}
+    ]};
+    return res.status(200).send(results);
+  });
+  router.post('/project/:key/board', function(req, res) {
+    const results = { ecode: 0, data: req.body};
+    return res.status(200).send(results);
+  });
+  router.delete('/project/:key/board/:id', function(req, res) {
+    const results = { ecode: 0, data: req.body};
+    return res.status(200).send(results);
+  });
+  router.get('/project/:key/board/:id', function(req, res) {
+    const { id } = req.params;
+    const results = { ecode: 0, data: {contents: { steps: [
+      { name: '过滤器配置', id: 'filter',  option: [ 
+        { label: '优先级', value: 'priorities'},
+        { label: '类型', value: 'types'},
+        { label: '用户', value: 'users'},
+        { label: '优先级', value: 'searchers'},
+        { label: '优先级', value: 'states'},
+        { label: '优先级', value: 'resolutions'}
+      ]},
+      { name: '用户配置', id: 'user',    option: [ ]},
+      { name: '看板列配置', id: 'list',    option: [ ]},
+      { name: '看板内容配置', id: 'content', option: [ ]},
+    ] }}};
+    return res.status(200).send(results);
+  });
+
+  /* board start */
+
+
   router.get('/project/:key/issue', function(req, res) {
     const startTime = new Date().getTime();
     while (new Date().getTime() < startTime + 2000);
-    const results = { ecode: 0, options: { 'total': 8 }, data: [{ no:1555, id: '546761', type:'1111', title: '国拨类型的项目添加任务中责任人没有必选*号', description:'bbbbb', priority:'1111', state:'2222', creator: {id:'aaa', name:'刘旭（研究院）'}, created_at: '2016-08-15T14:01:52.683Z' },{ no:9999, id: '546763', type:'1111', title: 'osn首页“项目周月报”未填写的本月月报显示为本月待填', assignee:{id:'aaa', name:'刘旭（研究院）'}, priority:'2222', state:'2222', created_at: '2016-08-15T14:01:52.683Z' },{ no:3, id: '546762', type:'2222', assignee: {id:'xxxx', name:'liuxu'}, title: 'OSN首页右上角新建报工窗口，提交成功后窗口关闭没有提示信息', priority:'3333', state:'1111', creator: {id:'aaa', name:'刘旭（研究院）'}, created_at: '2016-08-15T14:01:52.683Z'},{ no:4, id: '2323', title: 'OSN首页-我的日程起止时间，第一行和第二行字体大小相同' , created_at: '2016-08-15T14:01:52.683Z'},{ no:1, id: '5426761', type:'1111', title: '国拨类型的项目添加任务中责任人没有必选*号', description:'bbbbb', priority:'1111', state:'2222', creator: {id:'aaa', name:'刘旭（研究院）'}, created_at: '2016-08-15T14:01:52.683Z' },{ no:2, id: '5462763', type:'1111', title: 'osn首页“项目周月报”未填写的本月月报显示为本月待填', assignee:{id:'aaa', name:'刘旭（研究院）'}, priority:'2222', state:'2222', created_at: '2016-08-15T14:01:52.683Z' },{ no:3, id: '5467621', type:'2222', assignee: {id:'xxxx', name:'liuxu'}, title: 'OSN首页右上角新建报工窗口，提交成功后窗口关闭没有提示信息', priority:'3333', state:'1111', creator: {id:'aaa', name:'刘旭（研究院）'}, created_at: '2016-08-15T14:01:52.683Z'},{ no:4, id: '22323', title: 'OSN首页-我的日程起止时间，第一行和第二行字体大小相同' , created_at: '2016-08-15T14:01:52.683Z'}] };
+    const results = { ecode: 0, options: { 'total': 8 }, data: [{ no:1555, id: '546761', type:'1111', title: '国拨类型的项目添加任务中责任人没有必选*号', description:'bbbbb', priority:'1111', state:'546761', creator: {id:'aaa', name:'刘旭（研究院）'}, created_at: '2016-08-15T14:01:52.683Z', rank: 100 },{ no:9999, id: '546763', type:'1111', title: 'osn首页“项目周月报”未填写的本月月报显示为本月待填', assignee:{id:'aaa', name:'刘旭（研究院）'}, priority:'2222', state:'546761', created_at: '2016-08-15T14:01:52.683Z', rank: 98 },{ no:3, id: '546762', type:'2222', assignee: {id:'xxxx', name:'liuxu'}, title: 'OSN首页右上角新建报工窗口，提交成功后窗口关闭没有提示信息', priority:'3333', state:'546762', creator: {id:'aaa', name:'刘旭（研究院）'}, created_at: '2016-08-15T14:01:52.683Z', rank: 49},{ no:4, id: '2323', title: 'OSN首页-我的日程起止时间，第一行和第二行字体大小相同' , created_at: '2016-08-15T14:01:52.683Z', rank: 88 },{ no:1, id: '5426761', type:'1111', title: '国拨类型的项目添加任务中责任人没有必选*号', description:'bbbbb', priority:'1111', state:'546763', creator: {id:'aaa', name:'刘旭（研究院）'}, created_at: '2016-08-15T14:01:52.683Z', rank: 21 },{ no:2, id: '5462763', type:'1111', title: 'osn首页“项目周月报”未填写的本月月报显示为本月待填', assignee:{id:'aaa', name:'刘旭（研究院）'}, priority:'2222', state:'546762', created_at: '2016-08-15T14:01:52.683Z', rank: 35 },{ no:365, id: '5467621', type:'2222', assignee: {id:'xxxx', name:'liuxu'}, title: 'OSN首页右上角新建报工窗口，提交成功后窗口关闭没有提示信息', priority:'3333', state:'546761', creator: {id:'aaa', name:'刘旭（研究院）'}, created_at: '2016-08-15T14:01:52.683Z', rank: 23},{ no:8, type: '1111', id: '22323', title: 'OSN首页-我的日程起止时间，第一行和第二行字体大小相同' , created_at: '2016-08-15T14:01:52.683Z', priority:'1111', state: '546762', parent: { no: 2, title: 'tttt', id: '5462763', state: '546762' }, rank : 100}, { no:7, type: '1111', id: '2232dd3', title: 'OSN首页-我>的日程起止时间，第一行和第二行字体大小相同' , created_at: '2016-08-15T14:01:52.683Z', priority:'1111', state: '546762', parent: { no: 1, title: 'tttt', id: '5426761', state: '546762' }, rank : 100}] };
     return res.status(200).send(results);
   });
 
@@ -177,6 +245,13 @@ export default function(router) {
     const results = {ecode: 0, data:[{id:'1111', title:'aaaa', no:111, type:'2222'}, {id:'2222', title:'bbbb', no:222, type:'2222'}, {id:'3333', title:'cccc', no:333, type:'2222'}]};
     return res.status(200).send(results);
   }); 
+
+  router.get('/project/:key/issue/:id/wfactions', function(req, res) {
+    const startTime = new Date().getTime();
+    while (new Date().getTime() < startTime + 200);
+    const results = { ecode: 0, data: [{ id: 1001, name: 'aa', state: '546761' }, { id: 1002, name: 'bb', state: '546762' } ]};
+    return res.status(200).send(results);
+  });
 
   router.get('/project/:key/issue/:id/worklog', function(req, res) {
     const startTime = new Date().getTime();
@@ -237,8 +312,8 @@ export default function(router) {
   router.get('/project/:key/issue/options', function(req, res) {
     const startTime = new Date().getTime();
     while (new Date().getTime() < startTime + 2000);
-    const results = { ecode:0, data: { timetrack:{ w2d: 6, d2h: 9},searchers:[{id:'1111', name:'分配给我的', query:{ aa: 'aa'}},{id:'2222', name:'分配给我的2', query:{bb:'bb'}},{id:'3333', name:'分配给我的3', query:{cc:'cc'}},{id:'4444', name:'分配给我的4', link:'dd'},{id:'5555', name:'分配给我的5', link:'dd'}], types: [{id: '1111', name: '任务',abb:'T'}, { id: '2222', name: 'Bug', abb:'B', default: true, schema: [ { key:'name', name:'名称', required: true, type: 'TextArea' }, { key:'title', name:'主题', type: 'Url', defaultValue: 'bb' }, { key:'version', name:'版本', type: 'MultiSelect', optionValues: [{id: '1111', name: 'aaaa'},{id: '2222', name: 'bbbb'}, {id: '3333', name: 'cccc'} ], defaultValue: '1111', required: true }, { key:'attachments', name:'附件', type: 'File'}, { key:'expect_time', name:'城市', type: 'DateTimePicker' }, { key:'assignee', name:'经办人', type: 'Select' } ] }, { id: '3333', name: '需求',abb:'D', schema: [ { key:'title', name:'主题', type: 'Text', required: true }, { key:'version', name:'版本', type: 'MultiSelect', optionValues: [{id: '1111', name: 'aaaa'},{id: '2222', name: 'bbbb'}, {id: '3333', name: 'cccc'} ], defaultValue: '1111', required: true }, { key:'city2', name:'大城市', type: 'CheckboxGroup', optionValues: [{id: '1111', name: 'aaaa'},{id: '2222', name: 'bbbb'}, {id: '3333', name: 'cccc'} ], defaultValue: '1111', required: true }, { key:'expect_time', name:'期望时间', type: 'DateTimePicker', required: true }, { key:'title2', name:'主题', type: 'Number' } ] }, { id: '4444', name: '子任务', abb:'S', type:'subtask', schema: [ { key:'name', name:'名称', required: true, type: 'TextArea' }, { key:'title', name:'主题', type: 'Url', defaultValue: 'bb' }, { key:'version', name:'版本', type: 'MultiSelect', optionValues: [{id: '1111', name: 'aaaa'},{id: '2222', name: 'bbbb'}, {id: '3333', name: 'cccc'} ], defaultValue: '1111', required: true }, { key:'attachments', name:'附件', type: 'File'}, { key:'expect_time', name:'城市', type: 'DateTimePicker' }, { key:'assignee', name:'经办人', type: 'Select' } ] }, { id: '5555', name: '子任务2', abb:'S', type:'subtask', schema: [ { key:'title', name:'主题', type: 'Url', defaultValue: 'bb' }, { key:'version', name:'版本', type: 'MultiSelect', optionValues: [{id: '1111', name: 'aaaa'},{id: '2222', name: 'bbbb'}, {id: '3333', name: 'cccc'} ], defaultValue: '1111', required: true }, { key:'attachments', name:'附件', type: 'File'}, { key:'expect_time', name:'城市', type: 'DateTimePicker' }, { key:'assignee', name:'经办人', type: 'Select' } ] }], priorities:[{id:'1111',color:'#000000',name:'重要'},{id:'2222',color:'#aaaaaa',name:'一般'},{id:'3333',color:'#cccccc',name:'微小'}], resolutions:[{id:'1111',name:'待处理'},{id:'2222',name:'开发中'},{id:'3333',name:'完成'}], states:[{id:'1111',name:'待处理'},{id:'2222',name:'开发中'},{id:'3333',name:'完成'}], users: [{ id: '111', name:'刘旭', email: 'liuxuyjy@chinamobile.com' }, { id: '222', name:'葛鹏', email: 'gepeng@chinamobile.com' }] }};
-   return res.status(200).send(results);
+    const results = { ecode:0, data: { timetrack:{ w2d: 6, d2h: 9},searchers:[{id:'1111', name:'分配给我的', query:{ aa: 'aa'}},{id:'2222', name:'分配给我的2', query:{bb:'bb'}},{id:'3333', name:'分配给我的3', query:{cc:'cc'}},{id:'4444', name:'分配给我的4', link:'dd'},{id:'5555', name:'分配给我的5', link:'dd'}], types: [{id: '1111', name: '任务',abb:'T', type: 'standard'}, { id: '2222', name: 'Bug', abb:'B', type:'standard', default: true, schema: [ { key:'name', name:'名称', required: true, type: 'TextArea' }, { key:'title', name:'主题', type: 'Url', defaultValue: 'bb' }, { key:'version', name:'版本', type: 'MultiSelect', optionValues: [{id: '1111', name: 'aaaa'},{id: '2222', name: 'bbbb'}, {id: '3333', name: 'cccc'} ], defaultValue: '1111', required: true }, { key:'attachments', name:'附件', type: 'File'}, { key:'expect_time', name:'城市', type: 'DateTimePicker' }, { key:'assignee', name:'经办人', type: 'Select' } ] }, { id: '3333', name: '需求',abb:'D', type:'standard', schema: [ { key:'title', name:'主题', type: 'Text', required: true }, { key:'version', name:'版本', type: 'MultiSelect', optionValues: [{id: '1111', name: 'aaaa'},{id: '2222', name: 'bbbb'}, {id: '3333', name: 'cccc'} ], defaultValue: '1111', required: true }, { key:'city2', name:'大城市', type: 'CheckboxGroup', optionValues: [{id: '1111', name: 'aaaa'},{id: '2222', name: 'bbbb'}, {id: '3333', name: 'cccc'} ], defaultValue: '1111', required: true }, { key:'expect_time', name:'期望时间', type: 'DateTimePicker', required: true }, { key:'title2', name:'主题', type: 'Number' } ] }, { id: '4444', name: '子任务', abb:'S', type:'subtask', schema: [ { key:'name', name:'名称', required: true, type: 'TextArea' }, { key:'title', name:'主题', type: 'Url', defaultValue: 'bb' }, { key:'version', name:'版本', type: 'MultiSelect', optionValues: [{id: '1111', name: 'aaaa'},{id: '2222', name: 'bbbb'}, {id: '3333', name: 'cccc'} ], defaultValue: '1111', required: true }, { key:'attachments', name:'附件', type: 'File'}, { key:'expect_time', name:'城市', type: 'DateTimePicker' }, { key:'assignee', name:'经办人', type: 'Select' } ] }, { id: '5555', name: '子任务2', abb:'S', type:'subtask', schema: [ { key:'title', name:'主题', type: 'Url', defaultValue: 'bb' }, { key:'version', name:'版本', type: 'MultiSelect', optionValues: [{id: '1111', name: 'aaaa'},{id: '2222', name: 'bbbb'}, {id: '3333', name: 'cccc'} ], defaultValue: '1111', required: true }, { key:'attachments', name:'附件', type: 'File'}, { key:'expect_time', name:'城市', type: 'DateTimePicker' }, { key:'assignee', name:'经办人', type: 'Select' } ] }], priorities:[{id:'1111',color:'#000000',name:'重要'},{id:'2222',color:'#aaaaaa',name:'一般'},{id:'3333',color:'#cccccc',name:'微小'}], resolutions:[{id:'1111',name:'待处理'},{id:'2222',name:'开发中'},{id:'3333',name:'完成'}], states:[{id:'546761',name:'待处理'},{id:'546762',name:'开发中'},{id:'546763',name:'完成'}], users: [{ id: '111', name:'刘旭', email: 'liuxuyjy@chinamobile.com' }, { id: '222', name:'葛鹏', email: 'gepeng@chinamobile.com' }], versions:[{id: '1111', name: '1111' }, { id: '2222', name: '2222'}] }};
+    return res.status(200).send(results);
   });
 
   router.get('/project/:key/issue/:id', function(req, res) {
@@ -692,6 +767,13 @@ export default function(router) {
     return res.status(200).send(results);
   });
 
+  router.get('/project/:key/team', function(req, res) {
+    const startTime = new Date().getTime();
+    while (new Date().getTime() < startTime + 2000);
+    const results = { ecode: 0, data: [{ id: '546761', name: '项目经理', description: '111aaa', permissions:[ 'create_issue', 'edit_issue'], users: [{id: '1111', name: 'liuxu', email: 'liuxu@aa.com' }, {id: '2222', name: 'lihui', email: 'lihui@aa.com'}] }, { id: '546762', name: '产品经理', permissions:['create_issue', 'edit_issue'], users: [{id: '1111', name: 'liuxu', email: 'liuxu@aa.com'}] }] };
+    return res.status(200).send(results);
+  });
+
   router.post('/project/:key/role', function(req, res) {
     const results = { ecode: 0, data: { id: 'were', name: '5C问题', screen: {id:'222', name:'界面2'}, workflow:{id:'111', name:'流程1'}} };
     return res.status(200).send(results);
@@ -749,7 +831,7 @@ export default function(router) {
   router.post('/session', function(req, res) {
     const startTime = new Date().getTime();
     while (new Date().getTime() < startTime + 2000);
-    const results = { ecode: 0, data: { user: { id: 'nhy67ujm', email:'liuxuyjy@chinamobile.com', first_name: 'liuxu', avatar: 'http://tp1.sinaimg.cn/2214067364/180/5605327547/1', permissions: {sys_admin: true}, latest_access_url: '/project/boba/summary' }}};
+    const results = { ecode: 0, data: { user: { id: 'nhy67ujm', email:'liuxuyjy@chinamobile.com', first_name: 'liuxu', avatar: '', permissions: {sys_admin: true}, latest_access_url: '/project/boba/summary' }}};
     return res.status(200).send(results);
   });
 
@@ -804,4 +886,25 @@ export default function(router) {
     return res.status(200).send(results);
   });
   /******************Activity***************/
+
+  /******************kanban***************/
+  router.get('/project/:key/kanban/list', function(req, res) {
+    const startTime = new Date().getTime();
+    while (new Date().getTime() < startTime + 2000);
+    const results={ ecode: 0, data: [{ id: '1111', name: '测试测试11', filters: [{name: '1111', query:{ assignee: [ 'me', 'ttt' ] }}, {name: '2222', query:{updated_at: '1w'}}, {name: '3333', query: {created_at: '1w'}}], columns: [{name: '待处理', states: ['546761','546762']}, {name:'处理中', states: [ '546763' ]}, {name:'关闭', states:[]}], query: { subtask: false, type: [ '111', '333' ] }, ranks: [{ col: 0, parent: '', rank: [9999, 1555]}], last_access_time: 11111111 }, { id: '2222', name:'2222', filters: [{name: 'mmmmmmm', query:{ assignee: [ 'me','ttt' ] } }, {name: 'nnnnnnn', query:{updated_at: '1w'}}, {name: 'tttt', query: {created_at: '1w'}}], columns: [{name: '待处理22', states: [ '546761']}, {name:'处理中22', states: [ '546762' ]}, {name:'关闭22', states:[ '546763' ]}], query: { subtask: true, type: [ '111', '222' ] }, rank: {} }] };
+    return res.status(200).send(results);
+  });
+  router.get('/project/:key/kanban/:kid/rank', function(req, res) {
+    const startTime = new Date().getTime();
+    while (new Date().getTime() < startTime + 2000);
+    const results = { ecode: 0, data: [{ col_no: 0, parent: '', rank: [9999, 1555, 365, 2] }, { col_no: 1, parent: '', rank: [2, 3] }] };
+    return res.status(200).send(results);
+  });
+  router.post('/project/:key/kanban/:kid/rank', function(req, res) {
+    const startTime = new Date().getTime();
+    while (new Date().getTime() < startTime + 2000);
+    const results = { ecode: 0, data: [{ col_no: 0, parent: '', rank: [9999, 1555, 365, 2] }, { col_no: 1, parent: '', rank: [2, 3] }] };
+    return res.status(200).send(results);
+  });
+  /******************kanban***************/
 }

@@ -52,12 +52,24 @@ export default class List extends Component {
                 return (
                   <tr>
                     <td>
-                      <span className='table-td-title-nobold'>{ v.name || '' }({ v.abb || '' }){ v.default && <span style={ { fontWeight: 'normal' } }> (默认)</span> }{ v.type == 'subtask' && <span style={ { fontWeight: 'normal' } }> (子任务)</span> }</span>
+                      <span className='table-td-title-nobold'>
+                        { v.name || '' }({ v.abb || '' })
+                        { v.default && <span style={ { fontWeight: 'normal' } }> (默认)</span> }
+                        { v.type == 'subtask' && <span style={ { fontWeight: 'normal' } }> (子任务)</span> }
+                      </span>
                       <span className='table-td-desc'>{ v.description || '' }</span>
                     </td>
                     <td>{ v.type === 'subtask' ? '子任务' : '标准' }</td>
-                    <td><a href='#' onClick={ (e) => { e.preventDefault(); this.setState({ screenPreviewModalShow: true, screenSchema: v.screen && v.screen.schema || [], screenName: v.screen && v.screen.name || '' }); } }>{ v.screen && v.screen.name || '' }</a></td>
-                    <td><a href='#' onClick={ (e) => { e.preventDefault(); this.setState({ wfPreviewModalShow: true, wfSteps: v.workflow && v.workflow.contents && v.workflow.contents.steps || [], wfName: v.workflow && v.workflow.name || '' }); } }>{ v.workflow && v.workflow.name || '' }</a></td>
+                    <td>
+                      <a href='#' onClick={ (e) => { e.preventDefault(); this.setState({ screenPreviewModalShow: true, screenSchema: v.screen && v.screen.schema || [], screenName: v.screen && v.screen.name || '' }); } }>
+                        { v.screen && v.screen.name || '' }
+                      </a>
+                    </td>
+                    <td>
+                      <a href='#' onClick={ (e) => { e.preventDefault(); this.setState({ wfPreviewModalShow: true, wfSteps: v.workflow && v.workflow.contents && v.workflow.contents.steps || [], wfName: v.workflow && v.workflow.name || '' }); } }>
+                        { v.workflow && v.workflow.name || '' }
+                      </a>
+                    </td>
                   </tr>
                 );
               }) }
@@ -112,7 +124,7 @@ export default class List extends Component {
                       <div style={ { display: 'table', width: '100%' } }>
                       { v.permissions && v.permissions.length > 0 ?
                         <span>
-                        { _.map(v.permissions, function(val, i){ return <div style={ { display: 'inline-block', float: 'left', margin: '3px 3px 6px 3px' } }><Label style={ { color: '#007eff', border: '1px solid #c2e0ff', backgroundColor: '#ebf5ff', fontWeight: 'normal' } } key={ i }>{ _.find(allPermissions, { id: val }) ? _.find(allPermissions, { id: val }).name : '' }</Label></div> }) }
+                        { _.map(_.filter(allPermissions, function(o) { return _.indexOf(v.permissions, o.id) !== -1 }), function(val, i) { return <div style={ { display: 'inline-block', float: 'left', margin: '3px 3px 6px 3px' } }><Label style={ { color: '#007eff', border: '1px solid #c2e0ff', backgroundColor: '#ebf5ff', fontWeight: 'normal' } } key={ i }>{ val.name || '' }</Label></div> }) }
                        </span>
                        :
                        <span>

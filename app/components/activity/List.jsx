@@ -213,7 +213,14 @@ export default class List extends Component {
 
       const user = <Person data={ collection[i].user } />;
 
-      const wfEventFlag = collection[i].event_key === 'close_issue' || collection[i].event_key === 'resolve_issue' || collection[i].event_key === 'reset_issue' || collection[i].event_key === 'start_progress_issue' || collection[i].event_key === 'stop_progress_issue' || collection[i].event_key === 'reopen_issue' || collection[i].event_key.indexOf('_') === -1;
+      const wfEventFlag =
+         collection[i].event_key === 'close_issue' 
+         || collection[i].event_key === 'resolve_issue' 
+         || collection[i].event_key === 'reset_issue' 
+         || collection[i].event_key === 'start_progress_issue' 
+         || collection[i].event_key === 'stop_progress_issue' 
+         || collection[i].event_key === 'reopen_issue' 
+         || collection[i].event_key.indexOf('_') === -1;
 
       let comments = '';
       if (collection[i].event_key == 'add_comments' || collection[i].event_key == 'edit_comments' || collection[i].event_key == 'del_comments') {
@@ -232,7 +239,7 @@ export default class List extends Component {
 
       activities.push({
         id: collection[i].id,
-        avatar: ( <img src={ no_avatar } className='no-avatar'/> ),
+        avatar: ( <img src={ collection[i].user.avatar ? '/api/getavatar?fid=' + collection[i].user.avatar : no_avatar } className='no-avatar'/> ),
         summary: (
           <div>
             <span style={ { marginRight: '5px' } }><b>{ collection[i].user.name }</b></span>
@@ -242,11 +249,31 @@ export default class List extends Component {
             { collection[i].issue_link &&
               <ul className='list-unstyled clearfix' style={ { marginTop: '10px', marginBottom: '5px', fontSize: '12px' } }>
                 <li>
-                  { collection[i].issue_link && collection[i].issue_link.src && (collection[i].issue_link.src.del_flg === 1 ? <span style={ ltStyles }>{ collection[i].issue_link.src.no + ' - ' + collection[i].issue_link.src.title }</span> : <a style={ collection[i].issue_link.src.state == 'Closed' ? { textDecoration: 'line-through' } : {} } href='#' onClick={ (e) => { e.preventDefault(); this.issueView(collection[i].issue_link.src.id); } }><span style={ { marginRight: '5px' } }>{ collection[i].issue_link.src.no + ' - ' + collection[i].issue_link.src.title }</span></a>) }
+                  { collection[i].issue_link && collection[i].issue_link.src && 
+                    (collection[i].issue_link.src.del_flg === 1 ? 
+                      <span style={ ltStyles }>
+                        { collection[i].issue_link.src.no + ' - ' + collection[i].issue_link.src.title }
+                      </span> 
+                      : 
+                      <a style={ collection[i].issue_link.src.state == 'Closed' ? { textDecoration: 'line-through' } : {} } href='#' onClick={ (e) => { e.preventDefault(); this.issueView(collection[i].issue_link.src.id); } }>
+                        <span style={ { marginRight: '5px' } }>
+                          { collection[i].issue_link.src.no + ' - ' + collection[i].issue_link.src.title }
+                        </span>
+                      </a>) }
                 </li>
                 <li>{ collection[i].issue_link && collection[i].issue_link.relation || '' }</li>
                 <li>
-                  { collection[i].issue_link && collection[i].issue_link.dest && (collection[i].issue_link.dest.del_flg === 1 ? <span style={ ltStyles }>{ collection[i].issue_link.dest.no + ' - ' + collection[i].issue_link.dest.title }</span> : <a style={ collection[i].issue_link.dest.state == 'Closed' ? { textDecoration: 'line-through' } : {} } href='#' onClick={ (e) => { e.preventDefault(); this.issueView(collection[i].issue_link.dest.id); } }><span style={ { marginRight: '5px' } }>{ collection[i].issue_link.dest.no + ' - ' + collection[i].issue_link.dest.title }</span></a>) }
+                  { collection[i].issue_link && collection[i].issue_link.dest && 
+                    (collection[i].issue_link.dest.del_flg === 1 ? 
+                      <span style={ ltStyles }>
+                        { collection[i].issue_link.dest.no + ' - ' + collection[i].issue_link.dest.title }
+                      </span> 
+                      : 
+                      <a style={ collection[i].issue_link.dest.state == 'Closed' ? { textDecoration: 'line-through' } : {} } href='#' onClick={ (e) => { e.preventDefault(); this.issueView(collection[i].issue_link.dest.id); } }>
+                        <span style={ { marginRight: '5px' } }>
+                          { collection[i].issue_link.dest.no + ' - ' + collection[i].issue_link.dest.title }
+                        </span>
+                      </a>) }
                 </li>
               </ul> }
 

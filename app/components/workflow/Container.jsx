@@ -32,6 +32,9 @@ export default class Container extends Component {
   }
 
   goConfig(id) {
+    console.log('------')
+    console.log(this.props, id)
+    console.log('------')
     const { location: { pathname='' } } = this.props;
     const uri = pathname + '/' + id;
     this.context.router.push({ pathname: uri });
@@ -81,6 +84,7 @@ export default class Container extends Component {
         <Header 
           isSysConfig={ /^\/admin\/scheme/.test(pathname) }
           create={ this.create.bind(this) } 
+          goConfig={ this.goConfig.bind(this) } 
           i18n={ this.props.i18n }
           { ...this.props.workflow }/>
         <List 

@@ -144,7 +144,8 @@ class CreateModal extends Component {
 
   async handleSubmit() {
     const { create, edit, close, options, data={}, parent_id='', doAction=undefined, action_id='' } = this.props;
-    const schema = _.find(options.types, { id: this.state.values['type'] }).schema;
+    //const schema = _.find(options.types, { id: this.state.values['type'] }).schema;
+    const { schema } = this.state;
 
     let submitData = {};
     if (!_.isEmpty(data) && data.id) {
@@ -463,7 +464,7 @@ class CreateModal extends Component {
                     { this.state.touched[v.key] && (this.state.errors[v.key] || '') }
                   </Col>
                 </FormGroup> );
-              } else if (v.type === 'File') {
+              } else if (v.type === 'File' && options.permissions && options.permissions.indexOf('upload_file') !== -1) {
                 const componentConfig = {
                   showFiletypeIcon: true,
                   postUrl: '/api/project/' + project.key + '/file'
@@ -526,7 +527,12 @@ class CreateModal extends Component {
         <Modal.Footer>
           <span className='ralign'>{ this.state.ecode !== 0 && !loading && errMsg[this.state.ecode] }</span>
           <img src={ img } className={ loading ? 'loading' : 'hide' }/>
-          <Button type='submit' disabled={ (data.id && this.getChangedKeys().length <= 0 && isFromWorkflow === false) || _.isEmpty(schema) || !_.isEmpty(this.state.errors) || loading } onClick={ this.handleSubmit }>确定</Button>
+          <Button 
+            type='submit' 
+            disabled={ (data.id && this.getChangedKeys().length <= 0 && isFromWorkflow === false) || _.isEmpty(schema) || !_.isEmpty(this.state.errors) || loading } 
+            onClick={ this.handleSubmit }>
+            确定
+          </Button>
           <Button bsStyle='link' onClick={ this.handleCancel }>取消</Button>
         </Modal.Footer>
       </Modal>

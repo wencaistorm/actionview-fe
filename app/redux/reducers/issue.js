@@ -28,7 +28,8 @@ const initialState = {
   worklogIndexLoading: false, 
   worklogLoading: false, 
   worklogLoaded: false, 
-  linkLoading: false };
+  linkLoading: false,
+  detailFloatStyle: {} };
 
 export default function issue(state = initialState, action) {
   switch (action.type) {
@@ -126,7 +127,7 @@ export default function issue(state = initialState, action) {
       return { ...state, loading: false, error: action.error };
 
     case t.ISSUE_SHOW:
-      return { ...state, itemLoading: true, itemData: { id: action.id }, commentsLoaded: false, historyLoaded: false, worklogLoaded: false };
+      return { ...state, itemLoading: true, detailFloatStyle: action.floatStyle || {}, itemData: { id: action.id }, commentsLoaded: false, historyLoaded: false, worklogLoaded: false };
 
     case t.ISSUE_SHOW_SUCCESS:
       if (action.result.ecode === 0) {
@@ -224,10 +225,10 @@ export default function issue(state = initialState, action) {
       if ( action.result.ecode === 0 ) {
         const ind = _.findIndex(state.collection, { id: action.result.data.id });
         if (ind !== -1) {
-          state.collection[ind] = action.result.data;
+          state.collection[ind] = _.extend(state.collection[ind], action.result.data);
         }
         if (!_.isEmpty(state.itemData) && action.result.data.id === state.itemData.id) {
-          state.itemData = action.result.data;
+          state.itemData = _.extend(state.itemData, action.result.data);
         }
       }
       return { ...state, itemLoading: false, ecode: action.result.ecode };
@@ -363,7 +364,7 @@ export default function issue(state = initialState, action) {
       return { ...state, visitedIndex: _.add(state.visitedIndex, action.offset || 0) };
 
     case t.ISSUE_CLEAN_RECORD:
-      return { ...state, visitedIndex: -1, visitedCollection: [] };
+      return { ...state, visitedIndex: -1, visitedCollection: [], itemData: {} };
 
     case t.ISSUE_LINK_CREATE:
       return { ...state, linkLoading: true };
@@ -423,6 +424,20 @@ export default function issue(state = initialState, action) {
         }
       }
       return { ...state, ecode: action.result.ecode };
+
+    case t.ISSUE_KANBAN_RELEASE:
+      return { ...state, itemLoading: true };
+
+    case t.ISSUE_KANBAN_RELEASE_SUCCESS:
+      if ( action.result.ecode === 0 ) {
+        _.map(action.result.data.ids || [], (val) => {
+          state.collection = _.reject(state.collection, { id: val });
+        });
+      }
+      return { ...state, itemLoading: false, ecode: action.result.ecode };
+
+    case t.ISSUE_KANBAN_RELEASE_FAIL:
+      return { ...state, itemLoading: false, error: action.error };
 
     default:
       return state;

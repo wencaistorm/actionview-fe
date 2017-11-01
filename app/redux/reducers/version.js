@@ -7,7 +7,7 @@ export default function version(state = initialState, action) {
   switch (action.type) {
     case t.VERSION_INDEX:
       return { ...state, indexLoading: true, collection: [] };
-
+    
     case t.VERSION_INDEX_SUCCESS:
       if (action.result.ecode === 0) {
         state.collection = action.result.data;
@@ -34,6 +34,10 @@ export default function version(state = initialState, action) {
 
     case t.VERSION_UPDATE_SUCCESS:
       if ( action.result.ecode === 0 ) {
+        console.log('======')
+        console.log(state)
+        console.log(action.result)
+        console.log('======')
         const ind = _.findIndex(state.collection, { id: action.result.data.id });
         state.collection[ind] = action.result.data;
       }

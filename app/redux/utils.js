@@ -2,6 +2,7 @@
 import at from './constants/ActionTypes';
 
 export function asyncFuncCreator({ constant, ...rest }) {
+  console.log('creater: index')
   return {
     types: [
       at[constant],

@@ -58,10 +58,11 @@ export function delFile(key, issue_id, field_key, file_id) {
   });
 }
 
-export function show(key, id) {
+export function show(key, id, floatStyle) {
   return asyncFuncCreator({
     constant: 'ISSUE_SHOW',
     id,
+    floatStyle,
     promise: (client) => client.request({ url: '/project/' + key + '/issue/' + id })
   });
 }
@@ -217,5 +218,19 @@ export function copy(key, values) {
   return asyncFuncCreator({
     constant: 'ISSUE_COPY',
     promise: (client) => client.request({ url: '/project/' + key + '/issue/copy', method: 'post', data: values || {} })
+  });
+}
+
+export function setRank(key, kid, id, values) {
+  return asyncFuncCreator({
+    constant: 'ISSUE_KANBAN_RANK_SET',
+    promise: (client) => client.request({ url: '/project/' + key + '/kanban/' + kid + '/issue/' + id + '/rank', method: 'post', data: values || {} })
+  });
+}
+
+export function release(key, values) {
+  return asyncFuncCreator({
+    constant: 'ISSUE_KANBAN_RELEASE',
+    promise: (client) => client.request({ url: '/project/' + key + '/issue/release', method: 'post', data: values || {} })
   });
 }

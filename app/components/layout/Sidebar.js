@@ -32,35 +32,46 @@ export default class Sidebar extends Component {
 
     $(document).click(function() {
       if ($('.toc-container').eq(0).css('position') === 'fixed') {
-        $('.toc-container').animate({ left: '-250px' });
+        $('.toc-container').animate({ left: '-20%' });
       }
     });
   }
 
   hideBar() {
+    let detailLeftFloat = false;
+    if ($('.animate-dialog').length > 0 && $('.animate-dialog').offset().left == $('.doc-container').offset().left) {
+      detailLeftFloat = true;
+    }
+
     //box-shadow: 0 0 .5rem #9da5ab;
-    $('.toc-container').animate({ left: '-250px' });
+    $('.toc-container').animate({ left: '-20%' });
     $('.toc-container').css({ position: 'fixed' });
     $('.head').css({ paddingLeft: '15px' });
     $('.toc-logo').css({ left: '45%' });
     $('#show-bar').show();
+    detailLeftFloat && $('.animate-dialog').css('left', $('.doc-container').offset().left);
   }
 
   tackBar() {
-    $('.head').css({ paddingLeft: '265px' });
+    let detailLeftFloat = false;
+    if ($('.animate-dialog').length > 0 && $('.animate-dialog').offset().left == $('.doc-container').offset().left) {
+      detailLeftFloat = true;
+    }
+    $('.head').css({ paddingLeft: '19%' });
     $('.toc-logo').css({ left: '52%' });
     $('.toc-container').css({ position: 'relative', boxShadow: 'none', borderRight: 'solid 1px #e5e5e5' });
     $('#show-bar').hide();
     $('#tack-bar').hide();
     $('#hide-bar').show();
+    detailLeftFloat && $('.animate-dialog').css('left', $('.doc-container').offset().left);
   }
 
   componentWillReceiveProps(nextProps) {
-    if (/^\/project\/(\w+)(\/(summary|issue|activity|version|module|team|config))?$/.test(nextProps.pathname)) {
+    if (/^\/project\/(\w+)(\/(summary|issue|kanban|activity|version|module|team)(\/\w+)?)?$/.test(nextProps.pathname)) {
       this.state.adminPanelShow = false;
       this.state.projectPanelShow = true;
       this.state.projectSummaryShow = true;
-    } else if (/^\/project\/(\w+)\/(type|workflow|field|screen|priority|state|resolution|role|events)(\/\w+)?$/.test(nextProps.pathname)){
+    } else if (/^\/project\/(\w+)\/(config|type|workflow|field|screen|priority|state|resolution|role|events)(\/\w+)?$/.test(nextProps.pathname)){
       this.state.adminPanelShow = false;
       this.state.projectPanelShow = true;
       this.state.projectConfigShow = true;
@@ -68,7 +79,7 @@ export default class Sidebar extends Component {
       this.state.adminPanelShow = true;
       this.state.projectPanelShow = false;
       this.state.adminSchemeShow = true;
-    } else if (/^\/admin\/(project|user)$/.test(nextProps.pathname)) {
+    } else if (/^\/admin\/(project|user|group)$/.test(nextProps.pathname)) {
       this.state.adminPanelShow = true;
       this.state.projectPanelShow = false;
       this.state.adminSysManageShow = true;
@@ -108,7 +119,8 @@ export default class Sidebar extends Component {
             </ul>
             <h4><i className={ this.state.adminSysManageShow ? 'fa fa-minus-square-o' : 'fa fa-plus-square-o' } onClick={ (e) => { this.setState({ adminSysManageShow: !this.state.adminSysManageShow }); e.nativeEvent.stopImmediatePropagation(); } }></i>系统管理</h4>
             <ul className={ !this.state.adminSysManageShow && 'hide' }>
-              <li><Link to='/admin/user'>用户管理</Link></li>
+              <li><Link to='/admin/user'>用户</Link></li>
+              <li><Link to='/admin/group'>用户组</Link></li>
               <li><Link to='/admin/project'>项目管理</Link></li>
             </ul>
             <h4><i className={ this.state.adminSysSettingShow ? 'fa fa-minus-square-o' : 'fa fa-plus-square-o' } onClick={ (e) => { this.setState({ adminSysSettingShow: !this.state.adminSysSettingShow }); e.nativeEvent.stopImmediatePropagation(); } }></i>系统配置</h4>
@@ -135,6 +147,7 @@ export default class Sidebar extends Component {
             <ul className={ !this.state.projectSummaryShow && 'hide' }>
               <li><Link to={ '/project/' + project.item.key + '/summary' }>概要</Link></li>
               <li><Link to={ '/project/' + project.item.key + '/issue' }>问题</Link></li>
+              <li><Link to={ '/project/' + project.item.key + '/kanban' }>看板</Link></li>
               <li><Link to={ '/project/' + project.item.key + '/activity' }>活动</Link></li>
               <li><Link to={ '/project/' + project.item.key + '/module' }>模块</Link></li>
               <li><Link to={ '/project/' + project.item.key + '/version' }>版本</Link></li>
@@ -153,6 +166,7 @@ export default class Sidebar extends Component {
               <li><Link to={ '/project/' + project.item.key + '/priority' }>优先级</Link></li>
               <li><Link to={ '/project/' + project.item.key + '/role' }>角色权限</Link></li>
               <li><Link to={ '/project/' + project.item.key + '/events' }>通知事件</Link></li>
+              <li><Link to={ '/project/' + project.item.key + '/board' }>看板</Link></li>
             </ul> }
             { project.options.permissions && project.options.permissions.length > 0 && project.options.permissions.indexOf('manage_project') === -1 &&
             <ul className={ !this.state.projectConfigShow && 'hide' }>

@@ -20,11 +20,13 @@ if (BROWSER) {
   require('react-datetime/css/react-datetime.css');
   require('rc-tabs/assets/index.css');
   require('assets/styles/app.css');
+  require('assets/styles/board.css');
   require('assets/styles/lodash.css');
   require('assets/styles/jquery.atwho.css');
   require('mermaid/dist/mermaid.css');
   require('react-dropzone-component/styles/filepicker.css');
-  require('react-dropzone-component/node_modules/dropzone/dist/dropzone.css');
+  require('dropzone/dist/dropzone.css');
+  require('cropperjs/dist/cropper.css');
 }
 
 (async function() {

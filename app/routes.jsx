@@ -11,6 +11,7 @@ import Scheme from './components/scheme/Scheme';
 
 const SummaryContainer = require('./components/summary/Container');
 const IssueContainer = require('./components/issue/Container');
+const KanbanContainer = require('./components/kanban/Container');
 const ModuleContainer = require('./components/module/Container');
 const VersionContainer = require('./components/version/Container');
 const TeamContainer = require('./components/team/Container');
@@ -29,9 +30,12 @@ const ActivityContainer = require('./components/activity/Container');
 //const MyprojectContainer = require('./components/myproject/Container');
 const ProjectContainer = require('./components/project/Container');
 const UserContainer = require('./components/user/Container');
+const GroupContainer = require('./components/group/Container');
 const SchemeContainer = require('./components/scheme/Container');
 const MysettingContainer = require('./components/setting/my/Container');
 const SyssettingContainer = require('./components/setting/sys/Container');
+const BoardContainer = require('./components/board/Container');
+const BoardConfigContainer = require('./components/board/ConfigContainer');
 
 export default (
   <Route path='/' component={ Layout }>
@@ -62,9 +66,13 @@ export default (
         <Route path='role' component={ RoleContainer }/>
         <Route path='events' component={ EventsContainer }/>
         <Route path='activity' component={ ActivityContainer }/>
+        <Route path='kanban(/:id)' component={ KanbanContainer }/>
+        <Route path='board' component={ BoardContainer }/>
+        <Route path='board/:id' component={ BoardConfigContainer }/>
       </Route>
       <Route path='/admin/project' component={ ProjectContainer }/>
       <Route path='/admin/user' component={ UserContainer }/>
+      <Route path='/admin/group' component={ GroupContainer }/>
       <Route path='/admin/syssetting' component={ SyssettingContainer }/>
       <Route path='/admin/scheme' component={ Scheme }>
         <IndexRoute component={ TypeContainer }/>

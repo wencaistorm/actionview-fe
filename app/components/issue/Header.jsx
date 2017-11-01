@@ -188,6 +188,8 @@ export default class Header extends Component {
       refresh(query);
     } else if (eventKey == '2') {
       this.setState({ condShow : !this.state.condShow });
+    } else if (eventKey == '3') {
+      this.setState({ addSearcherShow : true });
     }
   }
 
@@ -249,12 +251,13 @@ export default class Header extends Component {
           </DropdownButton>
           <Button className='create-btn' disabled={ optionsLoading } onClick={ () => { this.setState({ searchShow: !this.state.searchShow, searcherConfigShow: false }); } }>检索&nbsp;<i className={ this.state.searchShow ? 'fa fa-angle-double-up' : 'fa fa-angle-double-down' }></i></Button>
           { options.permissions && options.permissions.indexOf('create_issue') !== -1 &&
-          <Button className='create-btn' bsStyle='primary' disabled={ standardTypes.length <= 0 || optionsLoading } onClick={ () => { this.setState({ createModalShow: true }); } }><i className='fa fa-plus'></i> 创建</Button> }
+            <Button className='create-btn' bsStyle='primary' disabled={ standardTypes.length <= 0 || optionsLoading } onClick={ () => { this.setState({ createModalShow: true }); } }><i className='fa fa-plus'></i> 创建</Button> }
           <div style={ { marginTop: '8px', float: 'right' } }>
             <DropdownButton pullRight bsStyle='link' style={ { float: 'right' } } title='更多' onSelect={ this.operateSelect.bind(this) }>
               <MenuItem eventKey='1'>刷新</MenuItem>
               <MenuItem divider/>
               <MenuItem eventKey='2'>{ this.state.condShow ? '隐藏条件' : '显示条件' }</MenuItem>
+              <MenuItem eventKey='3'>保存当前检索</MenuItem>
               <MenuItem divider/>
               <MenuItem eventKey='5'>导出</MenuItem>
               <MenuItem eventKey='6'>导入</MenuItem>
@@ -267,10 +270,41 @@ export default class Header extends Component {
           <span className='remove-icon' onClick={ () => { this.setState({ condShow: false }); } }><i className='fa fa-remove'></i></span>
           <span className='remove-icon' onClick={ () => { this.setState({ addSearcherShow: true }); } }><i className='fa fa-save'></i></span>
         </div> }
-        { this.state.searcherConfigShow && <SearcherConfigModal show close={ this.searcherConfigModalClose } loading={ searcherLoading } config={ configSearcher } searchers={ options.searchers || [] } i18n={ i18n }/> }
-        <SearchList className={ !this.state.searchShow && 'hide' } query={ query } searchShow={ this.state.searchShow } indexLoading={ indexLoading } options={ options } refresh={ refresh } hide={ () => { this.setState({ searchShow: false }) } }/>
-        { this.state.createModalShow && <CreateModal show close={ this.createModalClose } options={ options } create={ create } loading={ loading } project={ project } i18n={ i18n }/> }
-        { this.state.addSearcherShow && <AddSearcherModal show close={ this.addSearcherModalClose } searchers={ options.searchers || [] } create={ addSearcher } query={ query } loading={ searcherLoading } sqlTxt={ sqlTxt } i18n={ i18n }/> }
+        { this.state.searcherConfigShow && 
+          <SearcherConfigModal 
+            show 
+            close={ this.searcherConfigModalClose } 
+            loading={ searcherLoading } 
+            config={ configSearcher } 
+            searchers={ options.searchers || [] } 
+            i18n={ i18n }/> }
+          <SearchList 
+            className={ !this.state.searchShow && 'hide' } 
+            query={ query } 
+            searchShow={ this.state.searchShow } 
+            indexLoading={ indexLoading } 
+            options={ options } 
+            refresh={ refresh } 
+            hide={ () => { this.setState({ searchShow: false }) } }/>
+        { this.state.createModalShow && 
+          <CreateModal 
+            show 
+            close={ this.createModalClose } 
+            options={ options } 
+            create={ create } 
+            loading={ loading } 
+            project={ project } 
+            i18n={ i18n }/> }
+        { this.state.addSearcherShow && 
+          <AddSearcherModal 
+            show 
+            close={ this.addSearcherModalClose } 
+            searchers={ options.searchers || [] } 
+            create={ addSearcher } 
+            query={ query } 
+            loading={ searcherLoading } 
+            sqlTxt={ sqlTxt } 
+            i18n={ i18n }/> }
       </div>
     );
   }

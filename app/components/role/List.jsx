@@ -145,7 +145,9 @@ export default class List extends Component {
         id: collection[i].id,
         name:  (
           <div>
-            <span className='table-td-title'>{ collection[i].name }{ pkey !== '$_sys_$' && collection[i].project_key === '$_sys_$' && <span style={ { fontWeight: 'normal' } }> (全局)</span> }</span>
+            <span className='table-td-title'>
+              { collection[i].name }{ isGlobal && <span style={ { fontWeight: 'normal' } }> (全局)</span> }
+            </span>
             { collection[i].description && <span className='table-td-desc'>{ collection[i].description }</span> }
           </div>
         ),
@@ -156,18 +158,31 @@ export default class List extends Component {
               <div style={ { display: 'table', width: '100%' } }>
               { permissions.length > 0 ?
                 <span>
-                { _.map(permissions, function(v){ return <div style={ { display: 'inline-block', float: 'left', margin: '3px 3px 6px 3px' } }><Label style={ { color: '#007eff', border: '1px solid #c2e0ff', backgroundColor: '#ebf5ff', fontWeight: 'normal' } } key={ v.id }>{ v.name }</Label></div> }) }
+                { _.map(permissions, function(v) { 
+                  return (
+                    <div style={ { display: 'inline-block', float: 'left', margin: '3px 3px 6px 3px' } }>
+                      <Label style={ { color: '#007eff', border: '1px solid #c2e0ff', backgroundColor: '#ebf5ff', fontWeight: 'normal' } } key={ v.id }>{ v.name }</Label>
+                   </div> ) }) }
                 </span>
                 :
                 <span>
                   <div style={ { display: 'inline-block', margin: '3px 3px 6px 3px' } }>-</div>
                 </span> }
-                <span className='edit-icon-zone edit-icon' onClick={ this.willSetPermissions.bind(this, collection[i].id) }><i className='fa fa-pencil'></i></span>
+                <span className='edit-icon-zone edit-icon' onClick={ this.willSetPermissions.bind(this, collection[i].id) }>
+                  <i className='fa fa-pencil'></i>
+                </span>
               </div>
             </div> 
             :
             <div>
-              <Select multi clearable={ false } searchable={ false } disabled={ _.indexOf(settingPermissionRoleIds, collection[i].id) !== -1 && true } options={ _.map(somePermissions, function(v) { return { value: v.id, label: v.name }; }) } value={ this.state.permissions[collection[i].id] || collection[i].permissions } onChange={ this.handlePermissionSelectChange.bind(this, collection[i].id) } placeholder='请选择相应权限'/>
+              <Select 
+                multi 
+                clearable={ false } 
+                searchable={ false } 
+                disabled={ _.indexOf(settingPermissionRoleIds, collection[i].id) !== -1 && true } 
+                options={ _.map(somePermissions, function(v) { return { value: v.id, label: v.name }; }) } value={ this.state.permissions[collection[i].id] || collection[i].permissions } 
+                onChange={ this.handlePermissionSelectChange.bind(this, collection[i].id) } 
+                placeholder='请选择相应权限'/>
               <div className={ _.indexOf(settingPermissionRoleIds, collection[i].id) !== -1 ? 'hide' : '' } style={ { float: 'right' } }>
                 <Button className='edit-ok-button' onClick={ this.setPermissions.bind(this, collection[i].id) }><i className='fa fa-check'></i></Button>
                 <Button className='edit-ok-button' onClick={ this.cancelSetPermissions.bind(this, collection[i].id) }><i className='fa fa-close'></i></Button>
@@ -181,7 +196,11 @@ export default class List extends Component {
             <div style={ { display: 'table', width: '100%' } }>
             { permissions.length > 0 ?
               <span>
-              { _.map(permissions, function(v){ return <div style={ { display: 'inline-block', float: 'left', margin: '3px 3px 6px 3px' } }><Label style={ { color: '#007eff', border: '1px solid #c2e0ff', backgroundColor: '#ebf5ff', fontWeight: 'normal' } } key={ v.id }>{ v.name }</Label></div> }) }
+              { _.map(permissions, function(v) { 
+                return ( 
+                  <div style={ { display: 'inline-block', float: 'left', margin: '3px 3px 6px 3px' } }>
+                    <Label style={ { color: '#007eff', border: '1px solid #c2e0ff', backgroundColor: '#ebf5ff', fontWeight: 'normal' } } key={ v.id }>{ v.name }</Label>
+                  </div> ) }) }
               </span>
               :
               '-' }
@@ -191,7 +210,14 @@ export default class List extends Component {
         operation: !isGlobal ? (
           <div>
           { operateShow && hoverRowId === collection[i].id && !itemLoading &&
-            <DropdownButton pullRight bsStyle='link' style={ { textDecoration: 'blink' ,color: '#000' } } key={ i } title={ node } id={ `dropdown-basic-${i}` } onSelect={ this.operateSelect.bind(this) }>
+            <DropdownButton 
+              pullRight 
+              bsStyle='link' 
+              style={ { textDecoration: 'blink' ,color: '#000' } } 
+              key={ i } 
+              title={ node } 
+              id={ `dropdown-basic-${i}` } 
+              onSelect={ this.operateSelect.bind(this) }>
               <MenuItem eventKey='1'>编辑</MenuItem>
               { !collection[i].is_used && <MenuItem eventKey='2'>删除</MenuItem> }
             </DropdownButton> }
@@ -219,8 +245,19 @@ export default class List extends Component {
           <TableHeaderColumn dataField='permissions'>权限集</TableHeaderColumn>
           <TableHeaderColumn width='60' dataField='operation'/>
         </BootstrapTable>
-        { this.state.editModalShow && <EditModal show close={ this.editModalClose } update={ update } data={ selectedItem } i18n={ i18n }/> }
-        { this.state.delNotifyShow && <DelNotify show close={ this.delNotifyClose } data={ selectedItem } del={ del }/> }
+        { this.state.editModalShow && 
+          <EditModal 
+            show 
+            close={ this.editModalClose } 
+            update={ update } 
+            data={ selectedItem } 
+            i18n={ i18n }/> }
+        { this.state.delNotifyShow && 
+          <DelNotify 
+            show 
+            close={ this.delNotifyClose } 
+            data={ selectedItem } 
+            del={ del }/> }
       </div>
     );
   }
