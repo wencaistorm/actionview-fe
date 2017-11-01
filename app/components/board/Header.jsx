@@ -31,8 +31,6 @@ export default class Header extends Component {
       indexLoading, 
       collection } = this.props;
 
-    // console.log('this.props: ', this.props);
-
     return (
       <div>
         { options.permissions && options.permissions.indexOf('manage_project') !== -1 &&

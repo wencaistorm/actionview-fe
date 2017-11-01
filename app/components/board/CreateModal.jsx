@@ -16,31 +16,11 @@ const validate = (values, props) => {
   } else if (_.findIndex(props.collection || [], { name: values.name }) !== -1) {
     errors.name = '该名称已存在';
   }
-
-  if (values.start_time) {
-    if (!moment(values.start_time).isValid()) {
-      errors.start_time = '格式错误';
-    }
-  }
-
-  if (values.end_time) {
-    if (!moment(values.end_time).isValid()) {
-      errors.end_time = '格式错误';
-    }
-  }
-
-  if (values.start_time && values.end_time) {
-    if (values.start_time > values.end_time)
-    {
-      errors.start_time = '开始时间要早于结束时间';
-    }
-  }
-
   return errors;
 };
 
 @reduxForm({
-  form: 'version',
+  form: 'board',
   fields: ['name', 'type', 'description'],
   validate
 })

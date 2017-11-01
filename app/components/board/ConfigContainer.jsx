@@ -51,12 +51,8 @@ export default class ConfigContainer extends Component {
 
   render() {
 
-    //if (this.props.wfconfig && this.props.wfconfig.options && this.props.project && this.props.project.options) {
-    //  this.props.wfconfig.options.users = this.props.project.options.users || []; 
-    //}
-
     const { location: { pathname='' } } = this.props;
-
+    console.log(this.props)
     return (
       <div>
         <Header 

@@ -4,6 +4,7 @@ import { BootstrapTable, TableHeaderColumn } from 'react-bootstrap-table';
 import { Button, DropdownButton, MenuItem } from 'react-bootstrap';
 import _ from 'lodash';
 
+const CfgEditModal = require('./CfgEditModal');
 const EditModal = require('./EditModal');
 const DelNotify = require('./DelNotify');
 
@@ -52,9 +53,9 @@ export default class List extends Component {
   }
 
   edit(id) {
-    // this.setState({ editModalShow: true });
+    this.setState({ editModalShow: true });
     const { select } = this.props;
-    select(id);
+    // select(id);
   }
   configModalClose() {
     this.setState({ configModalShow: false });
@@ -69,8 +70,6 @@ export default class List extends Component {
   operateSelect(eventKey) {
     const { hoverRowId } = this.state;
     const { goConfig } = this.props;
-    console.log(hoverRowId)
-    console.log(hoverRowId)
     if (eventKey === '1') {
       this.edit(hoverRowId);
     } else if (eventKey === '2') {
@@ -102,7 +101,7 @@ export default class List extends Component {
       del, 
       update } = this.props;
     console.log(this.props)
-    console.log('this.state',this.state)
+    // console.log('this.state',this.state)
     const { hoverRowId, operateShow } = this.state;
     // console.log('selectedItem', selectedItem);
     const node = ( <span><i className='fa fa-cog'></i></span> );
@@ -116,11 +115,6 @@ export default class List extends Component {
           <div>
             <span className='table-td-title'>{ collection[i].name }</span>
             { collection[i].description && <span className='table-td-desc'>{ collection[i].description }</span> }
-          </div>
-        ),
-        type: ( 
-          <div>
-            <span>{ collection[i].type }</span>
           </div>
         ),
         operation: (
@@ -159,11 +153,10 @@ export default class List extends Component {
         <BootstrapTable data={ versions } bordered={ false } hover options={ opts } trClassName='tr-middle'>
           <TableHeaderColumn dataField='id' isKey hidden>ID</TableHeaderColumn>
           <TableHeaderColumn dataField='name'>名称</TableHeaderColumn>
-          <TableHeaderColumn dataField='type'>类型</TableHeaderColumn>
           <TableHeaderColumn width='60' dataField='operation'/>
         </BootstrapTable>
         { this.state.editModalShow && 
-          <EditModal 
+          <CfgEditModal 
             show 
             close={ this.editModalClose } 
             update={ update } 
@@ -178,7 +171,7 @@ export default class List extends Component {
             del={ del } 
             i18n={ i18n }/> }
         { this.state.configModalShow && 
-          <EditModal 
+          <CfgEditModal 
             show 
             close={ this.configModalClose.bind(this) } 
             update={ update } 

@@ -40,7 +40,7 @@ const validate = (values, props) => {
 };
 
 @reduxForm({
-  form: 'version',
+  form: 'board',
   fields: ['id', 'name', 'type', 'description'],
   validate
 })

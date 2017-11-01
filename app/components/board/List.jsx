@@ -68,7 +68,6 @@ export default class List extends Component {
   operateSelect(eventKey) {
     const { hoverRowId } = this.state;
     const { goConfig, selectedItem } = this.props;
-    console.log('operateSelect', selectedItem)
     if (eventKey === '1') {
       this.edit(hoverRowId);
     } else if (eventKey === '2') {
@@ -98,9 +97,9 @@ export default class List extends Component {
       itemLoading, 
       del, 
       update } = this.props;
+    console.log(this.props)
     const { hoverRowId, operateShow } = this.state;
     const node = ( <span><i className='fa fa-cog'></i></span> );
-    console.log(this.props)
     const boards = [];
     const boardNum = collection.length;
     for (let i = 0; i < boardNum; i++) {
@@ -146,7 +145,6 @@ export default class List extends Component {
     }
 
     opts.onRowMouseOver = this.onRowMouseOver.bind(this);
-    // opts.onMouseLeave = this.onMouseLeave.bind(this);
 
     return (
       <div style={ { marginBottom: '30px' } }>
