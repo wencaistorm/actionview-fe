@@ -34,7 +34,6 @@ export default class Container extends Component {
   }
   
   async index() {
-    console.log('container.jsx:index')
     await this.props.actions.index(this.pid);
     return this.props.board.ecode;
   }
@@ -56,9 +55,6 @@ export default class Container extends Component {
   }
 
   goConfig(id) {
-    console.log('------')
-    console.log(this, id)
-    console.log('------')
     const { location: { pathname='' } } = this.props;
     const uri = pathname + '/' + id;
     this.context.router.push({ pathname: uri });
@@ -71,10 +67,6 @@ export default class Container extends Component {
 
   render() {
     const { project: { options={} } } = this.props;
-    // console.log('======')
-    // console.log(this.props)
-    // console.log(options);
-    // console.log('======')
 
     return (
       <div>

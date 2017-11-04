@@ -102,9 +102,6 @@ export default class EditModal extends Component {
       dirty, 
       submitting, 
       data } = this.props;
-    console.log('------------');
-    console.log(this.props);
-    console.log('------------');
     const screenOptions = [ { label: '看板', value: 'kanban' }, { label: 'scrum', value: 'scrum', disabled: true } ]
     const typeval = 'kanban'
     return (

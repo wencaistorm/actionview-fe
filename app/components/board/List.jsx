@@ -16,7 +16,6 @@ export default class List extends Component {
     this.state = { 
       editModalShow: false, 
       delNotifyShow: false, 
-      configModalShow: false, 
       operateShow: false, 
       hoverRowId: '' };
     this.editModalClose = this.editModalClose.bind(this);
@@ -55,10 +54,6 @@ export default class List extends Component {
     const { select } = this.props;
     select(id);
   }
-  configModalClose() {
-    this.setState({ configModalShow: false });
-  }
-
   delNotify(id) {
     this.setState({ delNotifyShow: true });
     const { select } = this.props;
@@ -97,7 +92,6 @@ export default class List extends Component {
       itemLoading, 
       del, 
       update } = this.props;
-    console.log(this.props)
     const { hoverRowId, operateShow } = this.state;
     const node = ( <span><i className='fa fa-cog'></i></span> );
     const boards = [];
@@ -168,14 +162,6 @@ export default class List extends Component {
             close={ this.delNotifyClose } 
             data={ selectedItem } 
             del={ del } 
-            i18n={ i18n }/> }
-        { this.state.configModalShow && 
-          <EditModal 
-            show 
-            close={ this.configModalClose.bind(this) } 
-            update={ update } 
-            data={ selectedItem } 
-            collection={ collection } 
             i18n={ i18n }/> }
       </div>
     );

@@ -4,7 +4,7 @@ import { BootstrapTable, TableHeaderColumn } from 'react-bootstrap-table';
 import { Button, DropdownButton, MenuItem } from 'react-bootstrap';
 import _ from 'lodash';
 
-const CfgEditModal = require('./CfgEditModal');
+const ConfigEditModal = require('./ConfigEditModal');
 const EditModal = require('./EditModal');
 const DelNotify = require('./DelNotify');
 
@@ -40,7 +40,6 @@ export default class List extends Component {
 
   componentWillMount() {
     const { index } = this.props;
-    console.log('index!')
     index();
   }
 
@@ -73,10 +72,7 @@ export default class List extends Component {
     if (eventKey === '1') {
       this.edit(hoverRowId);
     } else if (eventKey === '2') {
-      this.delNotify(hoverRowId);
-    } else if (eventKey === '3') {
-      console.log('goConfig: ', this.props)
-      goConfig(hoverRowId)
+      // goConfig(hoverRowId)
     }
   }
 
@@ -100,10 +96,7 @@ export default class List extends Component {
       itemLoading, 
       del, 
       update } = this.props;
-    console.log(this.props)
-    // console.log('this.state',this.state)
     const { hoverRowId, operateShow } = this.state;
-    // console.log('selectedItem', selectedItem);
     const node = ( <span><i className='fa fa-cog'></i></span> );
 
     const versions = [];
@@ -129,15 +122,13 @@ export default class List extends Component {
               id={ `dropdown-basic-${i}` } 
               onSelect={ this.operateSelect.bind(this) }>
               <MenuItem eventKey='1'>编辑</MenuItem>
-              { !collection[i].is_used && <MenuItem eventKey='2'>删除</MenuItem> }
-              <MenuItem eventKey='3'>重置</MenuItem>
+              <MenuItem eventKey='2'>重置</MenuItem>
             </DropdownButton> }
             <img src={ img } className={ (itemLoading && selectedItem.id === collection[i].id) ? 'loading' : 'hide' }/>
           </div>
         )
       });
     }
-    // console.log(versions)
     const opts = {};
     if (indexLoading) {
       opts.noDataText = ( <div><img src={ img } className='loading'/></div> );
@@ -146,7 +137,6 @@ export default class List extends Component {
     }
 
     opts.onRowMouseOver = this.onRowMouseOver.bind(this);
-    // opts.onMouseLeave = this.onMouseLeave.bind(this);
 
     return (
       <div style={ { marginBottom: '30px' } }>
@@ -156,7 +146,7 @@ export default class List extends Component {
           <TableHeaderColumn width='60' dataField='operation'/>
         </BootstrapTable>
         { this.state.editModalShow && 
-          <CfgEditModal 
+          <ConfigEditModal 
             show 
             close={ this.editModalClose } 
             update={ update } 
@@ -171,7 +161,7 @@ export default class List extends Component {
             del={ del } 
             i18n={ i18n }/> }
         { this.state.configModalShow && 
-          <CfgEditModal 
+          <ConfigEditModal 
             show 
             close={ this.configModalClose.bind(this) } 
             update={ update } 

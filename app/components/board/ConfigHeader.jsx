@@ -21,7 +21,7 @@ export default class ConfigHeader extends Component {
     workflowName: PropTypes.string,
     ecode: PropTypes.number.isRequired,
     collection: PropTypes.array.isRequired,
-    collection2JSON: PropTypes.string.isRequired,
+    // collection2JSON: PropTypes.string.isRequired,
     saveLoading: PropTypes.bool.isRequired,
     options: PropTypes.object.isRequired,
     save: PropTypes.func.isRequired,
@@ -52,7 +52,6 @@ export default class ConfigHeader extends Component {
 
   async saveWorkflow() {
     const { save, collection, workflowName } = this.props;
-
     const allSteps = [];
     const stepTree = {}; 
 
@@ -95,9 +94,9 @@ export default class ConfigHeader extends Component {
   }
 
   render() {
-    const { createStep, options, pathname, collection, collection2JSON, workflowName, saveLoading, ecode } = this.props;
+    const { createStep, options, pathname, collection, workflowName, saveLoading, ecode } = this.props;
 
-    const newCollection2JSON = JSON.stringify(collection);
+    // const newCollection2JSON = JSON.stringify(collection);
 
     return (
       <div>
@@ -117,7 +116,7 @@ export default class ConfigHeader extends Component {
             <i className='fa fa-plus'></i>&nbsp;新建步骤
           </Button>
           <span style={ { float: 'right', marginTop: '20px', marginRight: '10px', fontWeight: 'bold' } }>{ workflowName }</span>
-          <span style={ { float: 'right', marginTop: '20px' } }>工作流名称：</span>
+          <span style={ { float: 'right', marginTop: '20px' } }>看板名称：</span>
         </div>
       </div>
     );

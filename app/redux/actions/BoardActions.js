@@ -6,7 +6,6 @@ export function index(key) {
     constant: 'BOARD_INDEX',
     promise: (client) => client.request({ url: '/project/' + key + '/board' })
   });
-  console.log(result);
   return result;
 }
 
@@ -15,7 +14,6 @@ export function create(key, values) {
     constant: 'BOARD_CREATE',
     promise: (client) => client.request({ url: '/project/' + key + '/board', method: 'post', data: values })
   });
-  // console.log('result: ', result)
   return result;
 }
 

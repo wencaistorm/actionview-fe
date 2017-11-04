@@ -77,6 +77,9 @@ export default generateConstants([
   'BOARD_SELECT',
   'BOARD_UPDATE(ASYNC)',
   'BOARD_DELETE(ASYNC)',
+  
+  'BOARD_CONFIG_INDEX(ASYNC)',
+  'BOARD_CONFIG_SAVE(ASYNC)',
 
   'FIELD_INDEX(ASYNC)',
   'FIELD_CREATE(ASYNC)',

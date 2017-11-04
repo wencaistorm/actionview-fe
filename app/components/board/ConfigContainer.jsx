@@ -1,14 +1,14 @@
 import React, { PropTypes, Component } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import * as WorkflowActions from 'redux/actions/BoardconfigActions';
+import * as BoardConfigActions from 'redux/actions/BoardconfigActions';
 
-const Header = require('./CfgHeader');
-const List = require('./CfgList');
+const Header = require('./ConfigHeader');
+const List = require('./ConfigList');
 
 function mapDispatchToProps(dispatch) {
   return {
-    actions: bindActionCreators(WorkflowActions, dispatch)
+    actions: bindActionCreators(BoardConfigActions, dispatch)
   };
 }
 
@@ -52,7 +52,6 @@ export default class ConfigContainer extends Component {
   render() {
 
     const { location: { pathname='' } } = this.props;
-    console.log(this.props)
     return (
       <div>
         <Header 
@@ -62,11 +61,6 @@ export default class ConfigContainer extends Component {
           { ...this.props.wfconfig }/>
         <List 
           index={ this.index.bind(this) } 
-          editStep={ this.props.actions.editStep } 
-          delStep={ this.props.actions.delStep } 
-          addAction={ this.props.actions.addAction } 
-          editAction={ this.props.actions.editAction } 
-          delAction={ this.props.actions.delAction } 
           { ...this.props.wfconfig }/>
       </div>
     );

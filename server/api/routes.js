@@ -194,7 +194,6 @@ export default function(router) {
 
   /* board start */
   router.get('/project/:key/board', function(req, res) {
-    console.log('routes.js')
     const results = { ecode: 0, data: [
       { id: '546761', name: 'AAAA', description:'bbbbb', type: 'kanban'},
       { id: '546763', name: 'BBBB', type: 'kanban'},
