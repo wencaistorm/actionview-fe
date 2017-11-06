@@ -12,7 +12,7 @@ function mapDispatchToProps(dispatch) {
   };
 }
 
-@connect(({ wfconfig }) => ({ wfconfig }), mapDispatchToProps)
+@connect(({ boardconfig }) => ({ boardconfig }), mapDispatchToProps)
 export default class ConfigContainer extends Component {
   constructor(props) {
     super(props);
@@ -24,17 +24,18 @@ export default class ConfigContainer extends Component {
     actions: PropTypes.object.isRequired,
     location: PropTypes.object.isRequired,
     params: PropTypes.object.isRequired,
-    wfconfig: PropTypes.object.isRequired
+    boardconfig: PropTypes.object.isRequired
   }
 
   async index() {
+    console.log( 'config-index', this.props.actions );
     await this.props.actions.index(this.pid, this.id);
-    return this.props.wfconfig.ecode;
+    return this.props.boardconfig.ecode;
   }
 
   async save(values) {
     await this.props.actions.save(this.pid, this.id, values);
-    return this.props.wfconfig.ecode;
+    return this.props.boardconfig.ecode;
   }
 
   componentWillMount() {
@@ -58,10 +59,10 @@ export default class ConfigContainer extends Component {
           createStep={ this.props.actions.createStep } 
           save={ this.save.bind(this) } 
           pathname={ pathname }
-          { ...this.props.wfconfig }/>
+          { ...this.props.boardconfig }/>
         <List 
           index={ this.index.bind(this) } 
-          { ...this.props.wfconfig }/>
+          { ...this.props.boardconfig }/>
       </div>
     );
   }

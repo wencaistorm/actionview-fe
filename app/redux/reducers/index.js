@@ -23,6 +23,6 @@ export { default as kanban } from './kanban';
 export { default as mysetting } from './mysetting';
 export { default as syssetting } from './syssetting';
 export { default as board } from './board';
-export { default as boardconfig } from './board';
+export { default as boardconfig } from './boardconfig';
 export { reducer as form } from 'redux-form';
 export { routerReducer as routing } from 'react-router-redux';

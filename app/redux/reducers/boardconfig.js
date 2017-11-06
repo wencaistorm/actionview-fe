@@ -2,7 +2,7 @@ import * as t from '../constants/ActionTypes';
 import _ from 'lodash';
 
 const initialState = { ecode: 0, collection: [], item: {}, indexLoading: false, loading: false, itemLoading: false, selectedItem: {} };
-console.log('hello')
+
 export default function board(state = initialState, action) {
   switch (action.type) {
     case t.BOARD_CONFIG_INDEX:

@@ -217,9 +217,8 @@ export default function(router) {
         { label: '优先级', value: 'priorities'},
         { label: '类型', value: 'types'},
         { label: '用户', value: 'users'},
-        { label: '优先级', value: 'searchers'},
-        { label: '优先级', value: 'states'},
-        { label: '优先级', value: 'resolutions'}
+        { label: '状态', value: 'states'},
+        { label: '解决结果', value: 'resolutions'}
       ]},
       { name: '用户配置', id: 'user',    option: [ ]},
       { name: '看板列配置', id: 'list',    option: [ ]},
