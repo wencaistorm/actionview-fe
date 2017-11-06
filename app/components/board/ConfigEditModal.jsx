@@ -1,10 +1,14 @@
 import React, { PropTypes, Component } from 'react';
 import { Modal, Button, Form, FormControl, FormGroup, ControlLabel, Col } from 'react-bootstrap';
+import { reduxForm } from 'redux-form';
 import Select from 'react-select';
 import _ from 'lodash';
 
 const img = require('../../assets/images/loading.gif');
-
+@reduxForm({
+  form: 'boardConfig',
+  fields: [ 'name', 'type', 'description' ]
+})
 export default class ConfigEditModal extends Component {
   constructor(props) {
     super(props);
@@ -30,20 +34,42 @@ export default class ConfigEditModal extends Component {
     query: PropTypes.object,
     searchShow: PropTypes.bool,
     options: PropTypes.object,
+    fields: PropTypes.object,
     indexLoading: PropTypes.bool.isRequired,
+    handleSubmit: PropTypes.func.isRequired,
     collection: PropTypes.array.isRequired
   }
 
   clean() {
     this.setState({ type: '' });
   }
+
   handleCancel() {
     const { close } = this.props;
     this.setState({ ecode: 0 });
     close();
   }
+  
+  async handleSubmit(values) {
+    console.log(values);
+    // const { values, update, close } = this.props;
+
+    // const ecode = await update(values);
+    // if (ecode === 0) {
+    //   this.setState({ ecode: 0 });
+    //   close();
+    //   notify.show('更新完成。', 'success', 2000);
+    // } else {
+    //   this.setState({ ecode: ecode });
+    // }
+  }
+
   render() {
-    const { collection } = this.props;
+    const { 
+      collection,
+      handleSubmit,
+      fields: { id, name, type, description }
+    } = this.props;
     const data = collection[0];
     const typeOptions = data.option;
 
@@ -51,9 +77,8 @@ export default class ConfigEditModal extends Component {
     const submitting = false;
     const errMsg = {};
     const invalid = '';
-    const handleSubmit = () => { console.log('submit') }
     return (
-      <Modal { ...this.props } onHide={ this.handleCancel } backdrop='static' aria-labelledby='contained-modal-title-sm'>
+      <Modal { ...this.props } onHide={ this.handleCancel.bind(this) } backdrop='static' aria-labelledby='contained-modal-title-sm'>
       <Modal.Header closeButton style={ { background: '#f0f0f0', height: '50px' } }>
         <Modal.Title id='contained-modal-title-la'>{ data.name }</Modal.Title>
       </Modal.Header>

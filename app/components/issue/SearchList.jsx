@@ -150,7 +150,7 @@ export default class SearchList extends Component {
               simpleValue
               multi
               placeholder='选择经办人'
-              value={ this.state.assignee }
+              value={ this.state.assignee } 
               onChange={ (newValue) => { this.setState({ assignee: newValue }) } }
               options={ userOptions }/>
           </Col>

@@ -10,11 +10,10 @@ export default function board(state = initialState, action) {
 
     case t.BOARD_CONFIG_INDEX_SUCCESS:
       if (action.result.ecode === 0) {
-        state.collection = action.result.data.contents && action.result.data.contents.steps ? action.result.data.contents.steps : [];
+        state.collection = action.result.data && action.result.data.configOption ? action.result.data.configOption : [];
         state.collection2JSON = JSON.stringify(state.collection);
-        state.workflowId = action.result.data.id;
-        state.workflowName = action.result.data.name;
-        state.options = action.result.options;
+        state.boardId = action.result.data.id;
+        state.boardName = action.result.data.name;
       }
       return { ...state, indexLoading: false, ecode: action.result.ecode };
 

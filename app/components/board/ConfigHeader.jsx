@@ -18,7 +18,7 @@ export default class ConfigHeader extends Component {
 
   static propTypes = {
     pathname: PropTypes.string.isRequired,
-    workflowName: PropTypes.string,
+    boardName: PropTypes.string,
     ecode: PropTypes.number.isRequired,
     collection: PropTypes.array.isRequired,
     // collection2JSON: PropTypes.string.isRequired,
@@ -51,7 +51,7 @@ export default class ConfigHeader extends Component {
   }
 
   async saveWorkflow() {
-    const { save, collection, workflowName } = this.props;
+    const { save, collection, boardName } = this.props;
     const allSteps = [];
     const stepTree = {}; 
 
@@ -94,9 +94,7 @@ export default class ConfigHeader extends Component {
   }
 
   render() {
-    const { createStep, options, pathname, collection, workflowName, saveLoading, ecode } = this.props;
-
-    // const newCollection2JSON = JSON.stringify(collection);
+    const { createStep, options, pathname, collection, boardName, saveLoading, ecode } = this.props;
 
     return (
       <div>
@@ -110,12 +108,7 @@ export default class ConfigHeader extends Component {
             disabled={ collection.length <= 0 }>
             <i className='fa fa-search'></i>&nbsp;预览
           </Button>
-          <Button 
-            className='create-btn' 
-            onClick={ () => { this.setState({ createStepModalShow: true }); } }>
-            <i className='fa fa-plus'></i>&nbsp;新建步骤
-          </Button>
-          <span style={ { float: 'right', marginTop: '20px', marginRight: '10px', fontWeight: 'bold' } }>{ workflowName }</span>
+          <span style={ { float: 'right', marginTop: '20px', marginRight: '10px', fontWeight: 'bold' } }>{ boardName }</span>
           <span style={ { float: 'right', marginTop: '20px' } }>看板名称：</span>
         </div>
       </div>

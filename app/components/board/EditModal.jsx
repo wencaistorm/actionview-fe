@@ -41,7 +41,7 @@ const validate = (values, props) => {
 
 @reduxForm({
   form: 'board',
-  fields: ['id', 'name', 'type', 'description'],
+  fields: [ 'name', 'type', 'description' ],
   validate
 })
 export default class EditModal extends Component {
@@ -103,7 +103,6 @@ export default class EditModal extends Component {
       submitting, 
       data } = this.props;
     const screenOptions = [ { label: '看板', value: 'kanban' }, { label: 'scrum', value: 'scrum', disabled: true } ]
-    const typeval = 'kanban'
     return (
       <Modal { ...this.props } onHide={ this.handleCancel } backdrop='static' aria-labelledby='contained-modal-title-sm'>
         <Modal.Header closeButton style={ { background: '#f0f0f0', height: '50px' } }>
@@ -120,10 +119,9 @@ export default class EditModal extends Component {
             <ControlLabel><span className='txt-impt'>*</span>类型</ControlLabel>
             <Select 
               options={ screenOptions }
-              value={ typeval }
+              { ...type }
               clearable={ false } 
-              simpleValue 
-              /* disabled={ submitting } */
+              simpleValue
               onChange={ newValue => { type.onChange(newValue) } }
               placeholder='请选择一个类型'/>
           </FormGroup>
