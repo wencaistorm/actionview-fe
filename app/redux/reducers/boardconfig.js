@@ -10,7 +10,8 @@ export default function board(state = initialState, action) {
 
     case t.BOARD_CONFIG_INDEX_SUCCESS:
       if (action.result.ecode === 0) {
-        state.collection = action.result.data && action.result.data.configOption ? action.result.data.configOption : [];
+        state.collection = action.result.data && action.result.data.config ? action.result.data.config : [];
+        state.configOptions = action.result.data && action.result.data.configOptions ? action.result.data.configOptions : [];
         state.collection2JSON = JSON.stringify(state.collection);
         state.boardId = action.result.data.id;
         state.boardName = action.result.data.name;

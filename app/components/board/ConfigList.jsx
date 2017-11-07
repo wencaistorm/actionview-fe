@@ -1,7 +1,8 @@
 import React, { PropTypes, Component } from 'react';
 // import { Link } from 'react-router';
 import { BootstrapTable, TableHeaderColumn } from 'react-bootstrap-table';
-import { Button, DropdownButton, MenuItem } from 'react-bootstrap';
+import { Button, Label, DropdownButton, MenuItem } from 'react-bootstrap';
+import Select from 'react-select';
 import _ from 'lodash';
 
 const ConfigEditModal = require('./ConfigEditModal');
@@ -15,6 +16,7 @@ export default class List extends Component {
   constructor(props) {
     super(props);
     this.state = { 
+      options: {},
       editModalShow: false, 
       delNotifyShow: false, 
       configModalShow: false, 
@@ -27,6 +29,7 @@ export default class List extends Component {
   static propTypes = {
     i18n: PropTypes.object.isRequired,
     options: PropTypes.object.isRequired,
+    configOptions: PropTypes.object.isRequired,
     collection: PropTypes.array.isRequired,
     selectedItem: PropTypes.object.isRequired,
     itemLoading: PropTypes.bool.isRequired,
@@ -40,7 +43,12 @@ export default class List extends Component {
 
   componentWillMount() {
     const { index } = this.props;
-    index();
+    index(() => { 
+      _.each(this.props.collection, ( item ) => {
+        this.state.options[ item.id ] = item.option;
+      })
+      this.setState({ options: this.state.options });
+    });
   }
 
   editModalClose() {
@@ -76,6 +84,19 @@ export default class List extends Component {
     }
   }
 
+  handleSelectChange(id, value) {
+    // this.state.options[id] = value;
+    // this.setState({ options: this.state.options[id] });
+  }
+
+  setOptions(id) {
+
+  }
+
+  cancelSetOptions(id) {
+
+  }
+
   onRowMouseOver(rowData) {
     if (rowData.id !== this.state.hoverRowId) {
       this.setState({ operateShow: true, hoverRowId: rowData.id });
@@ -88,8 +109,7 @@ export default class List extends Component {
 
   render() {
     const { 
-      i18n, 
-      options={}, 
+      i18n,
       collection, 
       selectedItem, 
       indexLoading, 
@@ -99,15 +119,55 @@ export default class List extends Component {
     const { hoverRowId, operateShow } = this.state;
     const node = ( <span><i className='fa fa-cog'></i></span> );
 
-    const versions = [];
-    const versionNum = collection.length;
-    for (let i = 0; i < versionNum; i++) {
-      versions.push({
+    const configs = [];
+    const configNum = collection.length;
+    const options = [ { label: 'xx', value: 'xx' }, { label: 'yy', value: 'yy' } ];
+    for (let i = 0; i < configNum; i++) {
+      configs.push({
         id: collection[i].id,
         name: ( 
           <div>
             <span className='table-td-title'>{ collection[i].name }</span>
             { collection[i].description && <span className='table-td-desc'>{ collection[i].description }</span> }
+          </div>
+        ),
+        option: (
+          <div>
+            { true ?
+            <div className='editable-list-field'>
+              <div style={ { display: 'table', width: '100%' } }>
+              { false ?
+                <span>
+                { _.map(options, function(v) { 
+                  return (
+                    <div style={ { display: 'inline-block', float: 'left', margin: '3px 3px 6px 3px' } }>
+                      <Label style={ { color: '#007eff', border: '1px solid #c2e0ff', backgroundColor: '#ebf5ff', fontWeight: 'normal' } } key={ v.id }>{ v.name }</Label>
+                   </div> ) }) }
+                </span>
+                :
+                <span>
+                  <div style={ { display: 'inline-block', margin: '3px 3px 6px 3px' } }>-</div>
+                </span> }
+                <span className='edit-icon-zone edit-icon' onClick={ this.setOptions.bind(this, collection[i].id) }>
+                  <i className='fa fa-pencil'></i>
+                </span>
+              </div>
+            </div> 
+            :
+            <div>
+              <Select
+                simpleValue
+                multi
+                placeholder='请选择'
+                value={ this.state.options[ collection[i].id ] || '' }
+                onChange={ this.handleSelectChange.bind(this, collection[i].id) }
+                options={ options }/>
+              <div style={ { float: 'right' } }>
+                <Button className='edit-ok-button' onClick={ this.setOptions.bind(this, collection[i].id) }><i className='fa fa-check'></i></Button>
+                <Button className='edit-ok-button' onClick={ this.cancelSetOptions.bind(this, collection[i].id) }><i className='fa fa-close'></i></Button>
+              </div>
+            </div>
+            }
           </div>
         ),
         operation: (
@@ -140,9 +200,10 @@ export default class List extends Component {
 
     return (
       <div style={ { marginBottom: '30px' } }>
-        <BootstrapTable data={ versions } bordered={ false } hover options={ opts } trClassName='tr-middle'>
+        <BootstrapTable data={ configs } bordered={ false } hover options={ opts } trClassName='tr-middle'>
           <TableHeaderColumn dataField='id' isKey hidden>ID</TableHeaderColumn>
           <TableHeaderColumn dataField='name'>名称</TableHeaderColumn>
+          <TableHeaderColumn dataField='option'>选项</TableHeaderColumn>
           <TableHeaderColumn width='60' dataField='operation'/>
         </BootstrapTable>
         { this.state.editModalShow && 

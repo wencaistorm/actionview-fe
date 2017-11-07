@@ -215,38 +215,54 @@ export default function(router) {
     const results = { ecode: 0, data: {
       id: '546761',
       name: 'AAAA',
-      configOption: [
-      { name: '过滤器配置', id: 'filter',  option: [ 
-        { label: '类型', value: 'types'},
-        { label: '状态', value: 'states'},
-        { label: '经办人', value: 'assignee'},
-        { label: '优先级', value: 'priorities'},
-        { label: '报告人', value: 'reporter'},
-        { label: '模块', value: 'module'},
-        { label: '解决版本', value: 'resolve_version'},
-        { label: '关注者', value: 'watcher'},
-        { label: '创建时间', value: 'created_at'},
-        { label: '更新时间', value: 'updated_at'},
-        { label: '解决结果', value: 'resolutions'}
-      ]},
-      { name: '用户配置', id: 'user',    option: [ 
-        { label: '类型', value: 'types'},
-        { label: '状态', value: 'states'},
-        { label: '经办人', value: 'assignee'},
-        { label: '优先级', value: 'priorities'},
-        { label: '报告人', value: 'reporter'},
-        { label: '模块', value: 'module'}
-      ]},
-      { name: '看板列配置', id: 'list',    option: [
-        { label: '待处理', value: 'todo'},
-        { label: '处理中', value: 'pending'},
-        { label: '关闭', value: 'close'}
-      ]},
-      { name: '看板内容配置', id: 'content', option: [
-        { label: '标题', value: 'title'},
-        { label: '描述', value: 'desc'},
-      ]},
-    ]
+      config: [
+        { name: '过滤器配置', id: 'filterConfig',  option: [ 
+          { label: '类型', value: 'types'},
+          { label: '状态', value: 'states'}
+        ]},
+        { name: '用户配置', id: 'userConfig',    option: [ 
+          { label: '类型', value: 'types'},
+          { label: '状态', value: 'states'}
+        ]},
+        { name: '看板列配置', id: 'listConfig',    option: [
+          { label: '待处理', value: 'todo'}
+        ]},
+        { name: '看板内容配置', id: 'contentConfig', option: [
+          { label: '标题', value: 'title'}
+        ]},
+      ],
+      configOptions: [
+        { name: '过滤器配置', id: 'filterConfig',  option: [ 
+          { label: '类型', value: 'types'},
+          { label: '状态', value: 'states'},
+          { label: '经办人', value: 'assignee'},
+          { label: '优先级', value: 'priorities'},
+          { label: '报告人', value: 'reporter'},
+          { label: '模块', value: 'module'},
+          { label: '解决版本', value: 'resolve_version'},
+          { label: '关注者', value: 'watcher'},
+          { label: '创建时间', value: 'created_at'},
+          { label: '更新时间', value: 'updated_at'},
+          { label: '解决结果', value: 'resolutions'}
+        ]},
+        { name: '用户配置', id: 'userConfig',    option: [ 
+          { label: '类型', value: 'types'},
+          { label: '状态', value: 'states'},
+          { label: '经办人', value: 'assignee'},
+          { label: '优先级', value: 'priorities'},
+          { label: '报告人', value: 'reporter'},
+          { label: '模块', value: 'module'}
+        ]},
+        { name: '看板列配置', id: 'listConfig',    option: [
+          { label: '待处理', value: 'todo'},
+          { label: '处理中', value: 'pending'},
+          { label: '关闭', value: 'close'}
+        ]},
+        { name: '看板内容配置', id: 'contentConfig', option: [
+          { label: '标题', value: 'title'},
+          { label: '描述', value: 'desc'},
+        ]},
+      ]
     }};
     return res.status(200).send(results);
   });
