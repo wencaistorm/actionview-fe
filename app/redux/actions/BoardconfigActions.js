@@ -15,3 +15,8 @@ export function save(key, id, values) {
     promise: (client) => client.request({ url: '/project/' + key + '/board/' + id, method: 'put', data: values })
   });
 }
+
+export function select(id) {
+  console.log('select', id)
+  return { type: 'BOARD_CONFIG_SELECT', id: id };
+}

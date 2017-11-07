@@ -32,6 +32,7 @@ export default class ConfigEditModal extends Component {
     hide: PropTypes.func.isRequired,
     close: PropTypes.func.isRequired,
     query: PropTypes.object,
+    data: PropTypes.object,
     searchShow: PropTypes.bool,
     options: PropTypes.object,
     fields: PropTypes.object,
@@ -68,11 +69,10 @@ export default class ConfigEditModal extends Component {
     const { 
       collection,
       handleSubmit,
-      fields: { id, name, type, description }
+      fields: { id, name, type, description },
+      data
     } = this.props;
-    const data = collection[0];
-    const typeOptions = data.option;
-
+    console.log(data)
     const hide = false;
     const submitting = false;
     const errMsg = {};
@@ -93,7 +93,7 @@ export default class ConfigEditModal extends Component {
                 placeholder='请选择'
                 value={ this.state.type }
                 onChange={ (newValue) => { this.setState({ type: newValue }); } }
-                options={ typeOptions }/>
+                options={ data.option }/>
             </Col>
           </FormGroup>
         </Form>
