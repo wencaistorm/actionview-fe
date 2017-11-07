@@ -51,17 +51,15 @@ export default class ConfigContainer extends Component {
   }
 
   render() {
-
     const { location: { pathname='' } } = this.props;
     return (
       <div>
         <Header 
-          createStep={ this.props.actions.createStep } 
-          save={ this.save.bind(this) } 
           pathname={ pathname }
           { ...this.props.boardconfig }/>
         <List 
           index={ this.index.bind(this) } 
+          select={ this.props.actions.select } 
           { ...this.props.boardconfig }/>
       </div>
     );

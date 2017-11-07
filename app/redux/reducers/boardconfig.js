@@ -2,13 +2,13 @@ import * as t from '../constants/ActionTypes';
 import _ from 'lodash';
 
 const initialState = { ecode: 0, collection: [], item: {}, indexLoading: false, loading: false, itemLoading: false, selectedItem: {} };
-
 export default function board(state = initialState, action) {
   switch (action.type) {
     case t.BOARD_CONFIG_INDEX:
       return { ...state, indexLoading: true, collection: [] };
 
     case t.BOARD_CONFIG_INDEX_SUCCESS:
+      console.log('board-config-index')
       if (action.result.ecode === 0) {
         state.collection = action.result.data && action.result.data.configOption ? action.result.data.configOption : [];
         state.collection2JSON = JSON.stringify(state.collection);
@@ -31,6 +31,10 @@ export default function board(state = initialState, action) {
 
     case t.BOARD_CONFIG_SAVE_FAIL:
       return { ...state, indexLoading: false, error: action.error };
+
+    case t.BOARD_CONFIG_SELECT:
+      const el = _.find(state.collection, { id: action.id });
+      return { ...state, itemLoading: false, selectedItem: el };
 
     default:
       return state;

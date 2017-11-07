@@ -213,7 +213,7 @@ export default function(router) {
   router.get('/project/:key/board/:id', function(req, res) {
     const { id } = req.params;
     const results = { ecode: 0, data: {
-      id: '546761',
+      id: id,
       name: 'AAAA',
       configOption: [
       { name: '过滤器配置', id: 'filter',  option: [ 

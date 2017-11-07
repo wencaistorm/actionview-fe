@@ -54,7 +54,8 @@ export default class List extends Component {
   edit(id) {
     this.setState({ editModalShow: true });
     const { select } = this.props;
-    // select(id);
+    console.log(id, this.props)
+    select(id);
   }
   configModalClose() {
     this.setState({ configModalShow: false });
