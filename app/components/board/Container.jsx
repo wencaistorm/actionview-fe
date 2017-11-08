@@ -33,7 +33,7 @@ export default class Container extends Component {
     router: PropTypes.object.isRequired
   }
   
-  async index() {
+  async index(cb) {
     await this.props.actions.index(this.pid);
     return this.props.board.ecode;
   }

@@ -17,6 +17,7 @@ export default class List extends Component {
     super(props);
     this.state = { 
       options: {},
+      willSetOptions: [],
       editModalShow: false, 
       delNotifyShow: false, 
       configModalShow: false, 
@@ -62,7 +63,6 @@ export default class List extends Component {
   edit(id) {
     this.setState({ editModalShow: true });
     const { select } = this.props;
-    console.log(id, this.props)
     select(id);
   }
   configModalClose() {
@@ -86,16 +86,24 @@ export default class List extends Component {
   }
 
   handleSelectChange(id, value) {
-    // this.state.options[id] = value;
-    // this.setState({ options: this.state.options[id] });
+    this.state.options[id] = value;
+    this.setState({ options: this.state.options });
   }
 
-  setOptions(id) {
+  setOptions(id, value) {
+    this.cancelSetOptions(id)
+  }
 
+  willSetOptions(id) {
+    this.state.willSetOptions.push(id);
+    this.setState({ willSetOptions: this.state.willSetOptions })
   }
 
   cancelSetOptions(id) {
+    const index = this.state.willSetOptions.indexOf(id);
+    this.state.willSetOptions.splice(index, 1);
 
+    this.setState({ willSetOptions: this.state.willSetOptions });
   }
 
   onRowMouseOver(rowData) {
@@ -122,8 +130,10 @@ export default class List extends Component {
 
     const configs = [];
     const configNum = collection.length;
-    const options = [ { label: 'xx', value: 'xx' }, { label: 'yy', value: 'yy' } ];
+    // const options = [ { label: 'xx', value: 'xx' }, { label: 'yy', value: 'yy' } ];
     for (let i = 0; i < configNum; i++) {
+      const thisOptions = this.state.options[ collection[i].id ];
+      const options = _.find(this.props.configOptions, { id: collection[i].id }).option;
       configs.push({
         id: collection[i].id,
         name: ( 
@@ -134,22 +144,22 @@ export default class List extends Component {
         ),
         option: (
           <div>
-            { true ?
+            { _.indexOf(this.state.willSetOptions, collection[i].id) === -1 ?
             <div className='editable-list-field'>
               <div style={ { display: 'table', width: '100%' } }>
-              { false ?
+              { thisOptions.length ?
                 <span>
-                { _.map(options, function(v) { 
+                { _.map(thisOptions, function(v) { 
                   return (
                     <div style={ { display: 'inline-block', float: 'left', margin: '3px 3px 6px 3px' } }>
-                      <Label style={ { color: '#007eff', border: '1px solid #c2e0ff', backgroundColor: '#ebf5ff', fontWeight: 'normal' } } key={ v.id }>{ v.name }</Label>
+                      <Label style={ { color: '#007eff', border: '1px solid #c2e0ff', backgroundColor: '#ebf5ff', fontWeight: 'normal' } } key={ v.value }>{ v.label }</Label>
                    </div> ) }) }
                 </span>
                 :
                 <span>
                   <div style={ { display: 'inline-block', margin: '3px 3px 6px 3px' } }>-</div>
                 </span> }
-                <span className='edit-icon-zone edit-icon' onClick={ this.setOptions.bind(this, collection[i].id) }>
+                <span className='edit-icon-zone edit-icon' onClick={ this.willSetOptions.bind(this, collection[i].id) }>
                   <i className='fa fa-pencil'></i>
                 </span>
               </div>
@@ -157,10 +167,9 @@ export default class List extends Component {
             :
             <div>
               <Select
-                simpleValue
                 multi
                 placeholder='请选择'
-                value={ this.state.options[ collection[i].id ] || '' }
+                value={ thisOptions || options }
                 onChange={ this.handleSelectChange.bind(this, collection[i].id) }
                 options={ options }/>
               <div style={ { float: 'right' } }>

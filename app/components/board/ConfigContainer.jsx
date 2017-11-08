@@ -27,9 +27,9 @@ export default class ConfigContainer extends Component {
     boardconfig: PropTypes.object.isRequired
   }
 
-  async index() {
-    console.log( 'config-index', this.props.actions );
+  async index(cb) {
     await this.props.actions.index(this.pid, this.id);
+    cb && cb();
     return this.props.boardconfig.ecode;
   }
 

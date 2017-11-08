@@ -8,7 +8,6 @@ export default function board(state = initialState, action) {
       return { ...state, indexLoading: true, collection: [] };
 
     case t.BOARD_CONFIG_INDEX_SUCCESS:
-      console.log('board-config-index')
       if (action.result.ecode === 0) {
         state.collection = action.result.data && action.result.data.config ? action.result.data.config : [];
         state.configOptions = action.result.data && action.result.data.configOptions ? action.result.data.configOptions : [];

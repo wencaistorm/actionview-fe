@@ -5,7 +5,6 @@ export function index(key, id) {
     constant: 'BOARD_CONFIG_INDEX',
     promise: (client) => client.request({ url: '/project/' + key + '/board/' + id })
   });
-  console.log(result)
   return result;
 }
 
@@ -17,6 +16,5 @@ export function save(key, id, values) {
 }
 
 export function select(id) {
-  console.log('select', id)
   return { type: 'BOARD_CONFIG_SELECT', id: id };
 }
