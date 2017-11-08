@@ -25,7 +25,12 @@ export default function board(state = initialState, action) {
 
     case t.BOARD_CONFIG_SAVE_SUCCESS:
       if (action.result.ecode === 0) {
-        state.collection = action.result.data;
+        console.log(action)
+        // state.collection = action.result.data;
+        const data = action.result.data;
+        _.each(state.collection, function (v) {
+          v.options = data[ v.id ]
+        })
       }
       return { ...state, indexLoading: false, ecode: action.result.ecode };
 

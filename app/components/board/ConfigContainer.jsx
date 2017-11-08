@@ -29,11 +29,13 @@ export default class ConfigContainer extends Component {
 
   async index(cb) {
     await this.props.actions.index(this.pid, this.id);
+    console.log(cb)
     cb && cb();
     return this.props.boardconfig.ecode;
   }
 
   async save(values) {
+    console.log('save', values);
     await this.props.actions.save(this.pid, this.id, values);
     return this.props.boardconfig.ecode;
   }
@@ -59,6 +61,7 @@ export default class ConfigContainer extends Component {
           { ...this.props.boardconfig }/>
         <List 
           index={ this.index.bind(this) } 
+          save={ this.save.bind(this) } 
           select={ this.props.actions.select } 
           { ...this.props.boardconfig }/>
       </div>

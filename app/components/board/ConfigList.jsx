@@ -36,6 +36,7 @@ export default class List extends Component {
     itemLoading: PropTypes.bool.isRequired,
     indexLoading: PropTypes.bool.isRequired,
     index: PropTypes.func.isRequired,
+    save: PropTypes.func.isRequired,
     select: PropTypes.func.isRequired,
     update: PropTypes.func.isRequired,
     goConfig: PropTypes.func.isRequired,
@@ -46,7 +47,7 @@ export default class List extends Component {
     const { index } = this.props;
     index(() => { 
       _.each(this.props.collection, ( item ) => {
-        this.state.options[ item.id ] = item.option;
+        this.state.options[ item.id ] = item.options;
       })
       this.setState({ options: this.state.options });
     });
@@ -90,8 +91,10 @@ export default class List extends Component {
     this.setState({ options: this.state.options });
   }
 
-  setOptions(id, value) {
+  setOptions(id) {
     this.cancelSetOptions(id)
+    const { save } = this.props;
+    save(this.state.options);
   }
 
   willSetOptions(id) {
@@ -130,10 +133,9 @@ export default class List extends Component {
 
     const configs = [];
     const configNum = collection.length;
-    // const options = [ { label: 'xx', value: 'xx' }, { label: 'yy', value: 'yy' } ];
     for (let i = 0; i < configNum; i++) {
       const thisOptions = this.state.options[ collection[i].id ];
-      const options = _.find(this.props.configOptions, { id: collection[i].id }).option;
+      const options = _.find(this.props.configOptions, { id: collection[i].id }).options;
       configs.push({
         id: collection[i].id,
         name: ( 
@@ -142,7 +144,7 @@ export default class List extends Component {
             { collection[i].description && <span className='table-td-desc'>{ collection[i].description }</span> }
           </div>
         ),
-        option: (
+        options: (
           <div>
             { _.indexOf(this.state.willSetOptions, collection[i].id) === -1 ?
             <div className='editable-list-field'>
@@ -213,7 +215,7 @@ export default class List extends Component {
         <BootstrapTable data={ configs } bordered={ false } hover options={ opts } trClassName='tr-middle'>
           <TableHeaderColumn dataField='id' isKey hidden>ID</TableHeaderColumn>
           <TableHeaderColumn dataField='name'>名称</TableHeaderColumn>
-          <TableHeaderColumn dataField='option'>选项</TableHeaderColumn>
+          <TableHeaderColumn dataField='options'>选项</TableHeaderColumn>
           <TableHeaderColumn width='60' dataField='operation'/>
         </BootstrapTable>
         { this.state.editModalShow && 

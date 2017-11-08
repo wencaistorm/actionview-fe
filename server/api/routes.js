@@ -1,6 +1,7 @@
 import path from 'path';
 import { readFile } from 'fs-promise';
 import debug from 'debug';
+import _ from 'lodash';
 
 import marked from 'marked';
 
@@ -216,23 +217,23 @@ export default function(router) {
       id: id,
       name: 'AAAA',
       config: [
-        { name: '过滤器配置', id: 'filterConfig',  option: [ 
+        { name: '过滤器配置', id: 'filterConfig',  options: [ 
           { label: '类型', value: 'types'},
           { label: '状态', value: 'states'}
         ]},
-        { name: '用户配置', id: 'userConfig',    option: [ 
+        { name: '用户配置', id: 'userConfig',    options: [ 
           { label: '类型', value: 'types'},
           { label: '状态', value: 'states'}
         ]},
-        { name: '看板列配置', id: 'listConfig',    option: [
+        { name: '看板列配置', id: 'listConfig',    options: [
           { label: '待处理', value: 'todo'}
         ]},
-        { name: '看板内容配置', id: 'contentConfig', option: [
+        { name: '看板内容配置', id: 'contentConfig', options: [
           { label: '标题', value: 'title'}
         ]},
       ],
       configOptions: [
-        { name: '过滤器配置', id: 'filterConfig',  option: [ 
+        { name: '过滤器配置', id: 'filterConfig',  options: [ 
           { label: '类型', value: 'types'},
           { label: '状态', value: 'states'},
           { label: '经办人', value: 'assignee'},
@@ -245,7 +246,7 @@ export default function(router) {
           { label: '更新时间', value: 'updated_at'},
           { label: '解决结果', value: 'resolutions'}
         ]},
-        { name: '用户配置', id: 'userConfig',    option: [ 
+        { name: '用户配置', id: 'userConfig',    options: [ 
           { label: '类型', value: 'types'},
           { label: '状态', value: 'states'},
           { label: '经办人', value: 'assignee'},
@@ -253,12 +254,12 @@ export default function(router) {
           { label: '报告人', value: 'reporter'},
           { label: '模块', value: 'module'}
         ]},
-        { name: '看板列配置', id: 'listConfig',    option: [
+        { name: '看板列配置', id: 'listConfig',    options: [
           { label: '待处理', value: 'todo'},
           { label: '处理中', value: 'pending'},
           { label: '关闭', value: 'close'}
         ]},
-        { name: '看板内容配置', id: 'contentConfig', option: [
+        { name: '看板内容配置', id: 'contentConfig', options: [
           { label: '标题', value: 'title'},
           { label: '描述', value: 'desc'},
         ]},
@@ -266,7 +267,10 @@ export default function(router) {
     }};
     return res.status(200).send(results);
   });
-
+  router.put('/project/:key/board/:id', function (req, res) {
+    const results = { ecode: 0, data: req.body }
+    return res.status(200).send(results);
+  })
   /* board start */
 
 
