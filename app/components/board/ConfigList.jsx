@@ -46,10 +46,12 @@ export default class List extends Component {
   componentWillMount() {
     const { index } = this.props;
     index(() => { 
+      const obj = {}
       _.each(this.props.collection, ( item ) => {
-        this.state.options[ item.id ] = item.options;
+        obj[ item.id ] = item.options;
       })
-      this.setState({ options: this.state.options });
+      console.log(obj)
+      this.setState({ options: obj });
     });
   }
 
@@ -134,7 +136,9 @@ export default class List extends Component {
     const configs = [];
     const configNum = collection.length;
     for (let i = 0; i < configNum; i++) {
-      const thisOptions = this.state.options[ collection[i].id ];
+      // hover 时会触发
+      // console.log(this.state.options, collection[i].id)
+      const thisOptions = this.state.options[ collection[i].id ] || [];
       const options = _.find(this.props.configOptions, { id: collection[i].id }).options;
       configs.push({
         id: collection[i].id,

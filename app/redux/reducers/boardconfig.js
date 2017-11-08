@@ -25,12 +25,11 @@ export default function board(state = initialState, action) {
 
     case t.BOARD_CONFIG_SAVE_SUCCESS:
       if (action.result.ecode === 0) {
-        console.log(action)
-        // state.collection = action.result.data;
-        const data = action.result.data;
-        _.each(state.collection, function (v) {
-          v.options = data[ v.id ]
-        })
+        state.collection = action.result.data && action.result.data.config ? action.result.data.config : [];
+        state.configOptions = action.result.data && action.result.data.configOptions ? action.result.data.configOptions : [];
+        state.collection2JSON = JSON.stringify(state.collection);
+        state.boardId = action.result.data.id;
+        state.boardName = action.result.data.name;
       }
       return { ...state, indexLoading: false, ecode: action.result.ecode };
 
