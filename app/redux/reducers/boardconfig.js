@@ -36,6 +36,22 @@ export default function board(state = initialState, action) {
     case t.BOARD_CONFIG_SAVE_FAIL:
       return { ...state, indexLoading: false, error: action.error };
 
+    case t.BOARD_CONFIG_OPTIONS:
+      return { ...state, indexLoading: true, collection: [] };
+
+    case t.BOARD_CONFIG_OPTIONS_SUCCESS:
+      if (action.result.ecode === 0) {
+        state.collection = action.result.data && action.result.data.config ? action.result.data.config : [];
+        state.configOptions = action.result.data && action.result.data.configOptions ? action.result.data.configOptions : [];
+        state.collection2JSON = JSON.stringify(state.collection);
+        state.boardId = action.result.data.id;
+        state.boardName = action.result.data.name;
+      }
+      return { ...state, indexLoading: false, ecode: action.result.ecode };
+
+    case t.BOARD_CONFIG_OPTIONS_FAIL:
+      return { ...state, indexLoading: false, error: action.error };
+
     case t.BOARD_CONFIG_SELECT:
       const el = _.find(state.collection, { id: action.id });
       return { ...state, itemLoading: false, selectedItem: el };

@@ -8,6 +8,13 @@ export function index(key, id) {
   return result;
 }
 
+export function getOptions(key) {
+  return asyncFuncCreator({
+    constant: 'BOARD_CONFIG_OPTIONS',
+    promise: (client) => client.request({ url: '/project/' + key + '/issue/options' })
+  });
+}
+
 export function save(key, id, values) {
   return asyncFuncCreator({
     constant: 'BOARD_CONFIG_SAVE',

@@ -80,6 +80,7 @@ export default generateConstants([
   
   'BOARD_CONFIG_INDEX(ASYNC)',
   'BOARD_CONFIG_SAVE(ASYNC)',
+  'BOARD_CONFIG_OPTIONS(ASYNC)',
   'BOARD_CONFIG_SELECT',
 
   'FIELD_INDEX(ASYNC)',

@@ -6,7 +6,6 @@ import Select from 'react-select';
 import _ from 'lodash';
 
 const ConfigEditModal = require('./ConfigEditModal');
-const EditModal = require('./EditModal');
 const DelNotify = require('./DelNotify');
 
 var moment = require('moment');
@@ -37,6 +36,7 @@ export default class List extends Component {
     indexLoading: PropTypes.bool.isRequired,
     index: PropTypes.func.isRequired,
     save: PropTypes.func.isRequired,
+    getOptions: PropTypes.func.isRequired,
     select: PropTypes.func.isRequired,
     update: PropTypes.func.isRequired,
     goConfig: PropTypes.func.isRequired,
@@ -128,6 +128,8 @@ export default class List extends Component {
       selectedItem, 
       indexLoading, 
       itemLoading, 
+      getOptions,
+      options={},
       del, 
       update } = this.props;
     const { hoverRowId, operateShow } = this.state;
@@ -226,7 +228,9 @@ export default class List extends Component {
           <ConfigEditModal 
             show 
             close={ this.editModalClose } 
+            options={ options }
             update={ update } 
+            getOptions={ getOptions }
             data={ selectedItem } 
             collection={ collection } 
             i18n={ i18n }/> }
@@ -236,14 +240,6 @@ export default class List extends Component {
             close={ this.delNotifyClose } 
             data={ selectedItem } 
             del={ del } 
-            i18n={ i18n }/> }
-        { this.state.configModalShow && 
-          <ConfigEditModal 
-            show 
-            close={ this.configModalClose.bind(this) } 
-            update={ update } 
-            data={ selectedItem } 
-            collection={ collection } 
             i18n={ i18n }/> }
       </div>
     );
