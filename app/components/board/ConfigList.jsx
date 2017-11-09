@@ -5,7 +5,8 @@ import { Button, Label, DropdownButton, MenuItem } from 'react-bootstrap';
 import Select from 'react-select';
 import _ from 'lodash';
 
-const ConfigEditModal = require('./ConfigEditModal');
+// const ConfigEditModal = require('./ConfigEditModal');
+const ConfigEditModal = require('./SortCardsModal');
 const DelNotify = require('./DelNotify');
 
 var moment = require('moment');
