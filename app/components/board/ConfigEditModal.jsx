@@ -1,9 +1,11 @@
 import React, { PropTypes, Component } from 'react';
-import { Button, Form, FormControl, FormGroup, ControlLabel, Col } from 'react-bootstrap';
+import { Modal, Button, Form, FormControl, FormGroup, ControlLabel, Col } from 'react-bootstrap';
 import Select from 'react-select';
 import _ from 'lodash';
 
-export default class SearchConfigList extends Component {
+const img = require('../../assets/images/loading.gif');
+
+export default class ConfigEditModal extends Component {
   constructor(props) {
     super(props);
     this.state = { 
@@ -21,18 +23,24 @@ export default class SearchConfigList extends Component {
       title: '' };
   }
   static propTypes = {
+    i18n: PropTypes.object.isRequired,
     refresh: PropTypes.func.isRequired,
     hide: PropTypes.func.isRequired,
+    close: PropTypes.func.isRequired,
     query: PropTypes.object,
     searchShow: PropTypes.bool,
     options: PropTypes.object,
+    submitting: PropTypes.bool,
+    invalid: PropTypes.bool,
+    dirty: PropTypes.bool,
+    // handleSubmit: PropTypes.func.isRequired,
     indexLoading: PropTypes.bool.isRequired,
     getOptions: PropTypes.func.isRequired
   }
 
   componentWillMount() {
     const { getOptions, query={} } = this.props;
-    getOptions();
+    // getOptions();
     this.state.title = query.title || ''; 
     this.state.type = query.type || ''; 
     this.state.assignee = query.assignee || ''; 
@@ -64,7 +72,27 @@ export default class SearchConfigList extends Component {
       updated_at: newQuery.updated_at ? newQuery.updated_at : ''
     });
   }
+  async handleSubmit() {
+    // const { values, update, close } = this.props;
 
+    // const ecode = await update(values);
+    // if (ecode === 0) {
+    //   this.setState({ ecode: 0 });
+    //   close();
+    //   notify.show('更新完成。', 'success', 2000);
+    // } else {
+    //   this.setState({ ecode: ecode });
+    // }
+  }
+
+  handleCancel() {
+    const { close } = this.props;
+    // if (submitting) {
+    //   return;
+    // }
+    // this.setState({ ecode: 0 });
+    close();
+  }
 
   clean() {
     this.setState({ type: '', assignee: '', reporter: '', watcher: '', state: '', priority: '', resolution: '', module: '', resolve_version: '', created_at: '', updated_at: '', title: '' });
@@ -93,7 +121,7 @@ export default class SearchConfigList extends Component {
   }
 
   render() {
-    const { indexLoading, searchShow=false, hide, options: { types=[], states=[], priorities=[], resolutions=[], modules=[], versions=[], users=[] } } = this.props;
+    const { indexLoading, invalid, submitting, dirty, searchShow=false, hide, options: { types=[], states=[], priorities=[], resolutions=[], modules=[], versions=[], users=[] } } = this.props;
 
     const typeOptions = _.map(types, (val) => { return { label: val.name, value: val.id } });
     const userOptions = _.map(users, (val) => { return { label: val.name + '(' + val.email + ')', value: val.id } });
@@ -106,22 +134,22 @@ export default class SearchConfigList extends Component {
     const versionOptions = _.map(versions, (val) => { return { label: val.name, value: val.id } });
 
     return (
-      <Form horizontal style={ { marginTop: '10px', marginBottom: '15px', padding: '10px', backgroundColor: '#f5f5f5' } } className={ !searchShow && 'hide' }>
-        <FormGroup controlId='formControlsLabel'>
-          <Col sm={ 1 } componentClass={ ControlLabel }>
-            主题/NO
-          </Col>
-          <Col sm={ 3 }>
+      <Modal { ...this.props } onHide={ this.handleCancel.bind(this) } backdrop='static' aria-labelledby='contained-modal-title-sm'>
+      <Modal.Header closeButton style={ { background: '#f0f0f0', height: '50px' } }>
+        <Modal.Title id='contained-modal-title-la'>{ '编辑看板 - ' }</Modal.Title>
+      </Modal.Header>
+      <form onSubmit={ this.handleSubmit.bind(this) } onKeyDown={ (e) => { if (e.keyCode == 13) { e.preventDefault(); } } }>
+      <Modal.Body style={ { overflow: 'auto', maxHeight: '450px' } }>
+          <FormGroup controlId='formControlsLabel'>
+            <ControlLabel><span className='txt-impt'>*</span>主题/NO</ControlLabel>
             <FormControl
               type='text'
               value={ this.state.title }
               onChange={ (e) => { this.setState({ title: e.target.value }) } }
               placeholder={ '输入关键字或编号' } />
-          </Col>
-          <Col sm={ 1 } componentClass={ ControlLabel }>
-            类型 
-          </Col>
-          <Col sm={ 3 }>
+          </FormGroup>
+          <FormGroup controlId='formControlsLabel'>
+            <ControlLabel><span className='txt-impt'>*</span>类型 </ControlLabel>
             <Select
               simpleValue
               multi
@@ -129,11 +157,9 @@ export default class SearchConfigList extends Component {
               value={ this.state.type }
               onChange={ (newValue) => { this.setState({ type: newValue }); } }
               options={ typeOptions }/>
-          </Col>
-          <Col sm={ 1 } componentClass={ ControlLabel }>
-            状态
-          </Col>
-          <Col sm={ 3 }>
+          </FormGroup>
+          <FormGroup controlId='formControlsLabel'>
+            <ControlLabel><span className='txt-impt'>*</span>状态</ControlLabel>
             <Select
               simpleValue
               multi
@@ -141,13 +167,9 @@ export default class SearchConfigList extends Component {
               value={ this.state.state }
               onChange={ (newValue) => { this.setState({ state: newValue }); } }
               options={ stateOptions }/>
-          </Col>
-        </FormGroup>
-        <FormGroup controlId='formControlsLabel'>
-          <Col sm={ 1 } componentClass={ ControlLabel }>
-            经办人
-          </Col>
-          <Col sm={ 3 }>
+          </FormGroup>
+          <FormGroup controlId='formControlsLabel'>
+            <ControlLabel><span className='txt-impt'>*</span>经办人</ControlLabel>
             <Select
               simpleValue
               multi
@@ -155,11 +177,9 @@ export default class SearchConfigList extends Component {
               value={ this.state.assignee } 
               onChange={ (newValue) => { this.setState({ assignee: newValue }) } }
               options={ userOptions }/>
-          </Col>
-          <Col sm={ 1 } componentClass={ ControlLabel }>
-            优先级
-          </Col>
-          <Col sm={ 3 }>
+          </FormGroup>
+          <FormGroup controlId='formControlsLabel'>
+            <ControlLabel><span className='txt-impt'>*</span>优先级</ControlLabel>
             <Select
               simpleValue
               multi
@@ -167,11 +187,9 @@ export default class SearchConfigList extends Component {
               value={ this.state.priority }
               onChange={ (newValue) => { this.setState({ priority: newValue }); } }
               options={ priorityOptions }/>
-          </Col>
-          <Col sm={ 1 } componentClass={ ControlLabel }>
-            解决结果
-          </Col>
-          <Col sm={ 3 }>
+          </FormGroup>
+          <FormGroup controlId='formControlsLabel'>
+            <ControlLabel><span className='txt-impt'>*</span>解决结果</ControlLabel>
             <Select
               simpleValue
               multi
@@ -179,13 +197,9 @@ export default class SearchConfigList extends Component {
               value={ this.state.resolution }
               onChange={ (newValue) => { this.setState({ resolution: newValue }); } }
               options={ resolutionOptions }/>
-          </Col>
-        </FormGroup>
-        <FormGroup controlId='formControlsLabel'>
-          <Col sm={ 1 } componentClass={ ControlLabel }>
-            报告人
-          </Col>
-          <Col sm={ 3 }>
+          </FormGroup>
+          <FormGroup controlId='formControlsLabel'>
+            <ControlLabel><span className='txt-impt'>*</span>报告人</ControlLabel>
             <Select
               simpleValue
               multi
@@ -193,11 +207,9 @@ export default class SearchConfigList extends Component {
               value={ this.state.reporter }
               onChange={ (newValue) => { this.setState({ reporter: newValue }); } }
               options={ userOptions }/>
-          </Col>
-          <Col sm={ 1 } componentClass={ ControlLabel }>
-            模块
-          </Col>
-          <Col sm={ 3 }>
+          </FormGroup>
+          <FormGroup controlId='formControlsLabel'>
+            <ControlLabel><span className='txt-impt'>*</span>模块</ControlLabel>
             <Select
               simpleValue
               multi
@@ -205,11 +217,9 @@ export default class SearchConfigList extends Component {
               value={ this.state.module }
               onChange={ (newValue) => { this.setState({ module: newValue }); } }
               options={ moduleOptions }/>
-          </Col>
-          <Col sm={ 1 } componentClass={ ControlLabel }>
-            解决版本 
-          </Col>
-          <Col sm={ 3 }>
+          </FormGroup>
+          <FormGroup controlId='formControlsLabel'>
+            <ControlLabel><span className='txt-impt'>*</span>解决版本 </ControlLabel>
             <Select
               simpleValue
               multi
@@ -217,13 +227,9 @@ export default class SearchConfigList extends Component {
               value={ this.state.resolve_version }
               onChange={ (newValue) => { this.setState({ resolve_version: newValue }); } }
               options={ versionOptions }/>
-          </Col>
-        </FormGroup>
-        <FormGroup controlId='formControlsLabel'>
-          <Col sm={ 1 } componentClass={ ControlLabel }>
-            关注者
-          </Col>
-          <Col sm={ 3 }>
+          </FormGroup>
+          <FormGroup controlId='formControlsLabel'>
+            <ControlLabel><span className='txt-impt'>*</span>关注者</ControlLabel>
             <Select
               simpleValue
               multi
@@ -231,44 +237,41 @@ export default class SearchConfigList extends Component {
               value={ this.state.watcher }
               onChange={ (newValue) => { this.setState({ watcher: newValue }); } }
               options={ [ { value: 'me', label: '当前用户' } ] }/>
-          </Col>
-          <Col sm={ 1 } componentClass={ ControlLabel }>
-            创建时间
-          </Col>
-          <Col sm={ 3 }>
+          </FormGroup>
+          <FormGroup controlId='formControlsLabel'>
+            <ControlLabel><span className='txt-impt'>*</span>创建时间</ControlLabel>
             <Select
               simpleValue
               placeholder='选择时间段'
               value={ this.state.created_at }
               onChange={ (newValue) => { this.setState({ created_at: newValue }); } }
               options={ dateOptions }/>
-          </Col>
-          <Col sm={ 1 } componentClass={ ControlLabel }>
-            更新时间
-          </Col>
-          <Col sm={ 3 }>
+          </FormGroup>
+          <FormGroup controlId='formControlsLabel'>
+            <ControlLabel><span className='txt-impt'>*</span>更新时间</ControlLabel>
             <Select
               simpleValue
               placeholder='选择时间段'
               value={ this.state.updated_at }
               onChange={ (newValue) => { this.setState({ updated_at: newValue }); } }
               options={ dateOptions }/>
-          </Col>
-        </FormGroup>
-        <FormGroup controlId='formControlsLabel' style={ { marginBottom: '0px' } }>
-          <Col sm={ 12 }>
-            <Button disabled={ false } type='submit'>确定</Button>
-            <Button 
-              style={ { float: 'right', marginTop: '0px', marginRight: '0px' } } 
-              className='create-btn' 
-              onClick={ this.clean.bind(this) }>
-              清空 
-              <i className='fa fa-undo'></i>
-              </Button>
-            <Button bsStyle='link' disabled={ true } onClick={ this.handleCancel }>取消</Button>
-          </Col>
-        </FormGroup>
-      </Form>
+          </FormGroup>
+        </Modal.Body>
+        <Modal.Footer>
+          <span className='ralign'>{ this.state.ecode !== 0 && !submitting }</span>
+          <img src={ img } className={ submitting ? 'loading' : 'hide' }/>
+          <Button disabled={ !dirty || submitting || invalid } type='submit'>确定</Button>
+          <Button 
+            style={ { marginTop: '0px', marginRight: '0px' } } 
+            className='create-btn' 
+            onClick={ this.clean.bind(this) }>
+            清空 
+            <i className='fa fa-undo'></i>
+            </Button>
+          <Button bsStyle='link' disabled={ submitting } onClick={ this.handleCancel.bind(this) }>取消</Button>
+        </Modal.Footer>
+        </form>
+      </Modal>
     );
   }
 }

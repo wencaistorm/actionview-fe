@@ -106,7 +106,7 @@ export default class CreateModal extends Component {
           <Modal.Title id='contained-modal-title-la'>创建问题类型</Modal.Title>
         </Modal.Header>
         <form onSubmit={ handleSubmit(this.handleSubmit) } onKeyDown={ (e) => { if (e.keyCode == 13) { e.preventDefault(); } } }>
-        <Modal.Body>
+        <Modal.Body style={ { maxHeight: '450px', overflow: 'auto' } }>
           <FormGroup controlId='formControlsText' validationState={ name.touched && name.error ? 'error' : '' }>
             <ControlLabel><span className='txt-impt'>*</span>名称</ControlLabel>
             <FormControl disabled={ submitting } type='text' { ...name } placeholder='问题类型名'/ >

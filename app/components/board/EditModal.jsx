@@ -83,7 +83,7 @@ export default class EditModal extends Component {
       handleSubmit, 
       invalid, 
       dirty, 
-      submitting, 
+      submitting=false, 
       data } = this.props;
     const screenOptions = [ { label: '看板', value: 'kanban' }, { label: 'scrum', value: 'scrum', disabled: true } ]
     return (

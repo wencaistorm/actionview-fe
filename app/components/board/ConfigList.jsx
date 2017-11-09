@@ -50,7 +50,6 @@ export default class List extends Component {
       _.each(this.props.collection, ( item ) => {
         obj[ item.id ] = item.options;
       })
-      console.log(obj)
       this.setState({ options: obj });
     });
   }
@@ -65,6 +64,7 @@ export default class List extends Component {
 
   edit(id) {
     this.setState({ editModalShow: true });
+    console.log('edit')
     const { select } = this.props;
     select(id);
   }
